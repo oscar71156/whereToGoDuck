@@ -1,0 +1,17 @@
+.area{
+    position: relative;
+    display: inline-block;
+}
+
+.area figcaption{
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color:#FFF;
+}
+.area img{
+    filter: brightness(0.8);
+    width: 100%;
+
+}

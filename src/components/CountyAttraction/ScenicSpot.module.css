@@ -1,0 +1,68 @@
+.scenicSpot{
+    color:#333;
+}
+
+.image{
+    width: 100%;
+    height: min-content;
+
+}
+.backButton{
+    position:absolute;
+    top:24px;
+    left: 19px;
+    z-index: 1;
+    background-color: transparent;
+}
+
+.image img{
+    width: 100%;
+    height: auto;
+}
+
+
+.content{
+    padding: 0 20px;
+}
+
+.content h5{
+    margin: 24px 0 18px;
+    line-height: 24px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.item{
+    margin:6px 0;
+    display: flex;
+    flex-direction: row;
+}
+
+.content .text{
+    font-size: 15px;
+    line-height: 20px;
+    margin-left: 5px;
+
+}
+
+
+.content .icon{
+    width: 16px;
+
+}
+.content .icon svg{
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-bottom: 3px;
+}
+
+.description{
+    border-bottom: 1px solid rgba(51,51,51,.2);
+    border-top: 1px solid rgba(51,51,51,.2);
+    padding:24px 0px;
+    font-size: 15px;
+    line-height: 20px;
+    color:#4F4F4F;
+    margin: 24px 0px 18px;
+}

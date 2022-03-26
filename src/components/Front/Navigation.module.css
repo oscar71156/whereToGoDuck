@@ -1,0 +1,48 @@
+.navigation {
+  background-repeat: no-repeat;
+  background-image: url("../../assets/icons/navigationBG.png");
+  background-size: cover;
+  background-position: center;
+  padding: 40px 20px 0;
+  height: 500px;
+}
+.searchGroup{
+  width: 100%;
+  max-width: 900px;
+  margin:0 auto;
+}
+
+.description {
+  color: white;
+  font-weight: bold;
+  /* padding: 10px 0px; */
+  font-size: 18px;
+  line-height: 20px;
+  letter-spacing: 0.05rem;
+}
+.navigation h3 {
+  color: white;
+  font-weight: Regular;
+  font-size: 15px;
+  line-height: 20px;
+  margin-top: 15px;
+}
+
+/* .navigation select {
+  height: 50px;
+  border-radius: 24px;
+  text-indent: 20px;
+  margin: 20px 0;
+} */
+
+.navigation .whereDuck {
+  position: absolute;
+  right: 0;
+  bottom: -36px;
+}
+
+.navigation .hereDuck {
+  position: absolute;
+  right: 75px;
+  bottom: -30px;
+}

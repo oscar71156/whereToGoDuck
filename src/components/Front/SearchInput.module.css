@@ -1,0 +1,33 @@
+
+
+.searchInput{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    
+}
+
+.select{
+    margin:24px 0px;
+}
+
+.button{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+@media (min-width:900px) {
+    .searchInput{
+        flex-direction:row;
+    }
+    .select{
+        flex-grow: 1;
+    }
+    .button{
+        max-width:150px;
+        margin-left: 20px;
+    }
+}

@@ -1,0 +1,17 @@
+
+
+.nearbyButton{
+    width: 100%;
+
+    background-color: #F79C31;
+    border-radius: 24px;
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: bold;
+    padding: 15px 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

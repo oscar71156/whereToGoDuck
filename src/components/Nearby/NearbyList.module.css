@@ -1,0 +1,10 @@
+.nearbyList{
+    padding-bottom: 40px;
+    height: calc(100% - 110px);
+    overflow: auto;
+}
+
+.button{
+    width: 100%;
+    padding:40px 0;
+}

@@ -1,0 +1,9 @@
+.back{
+    background-color: white;
+    border-radius: 8px;
+    padding:2px 4px;
+
+}
+.back svg{
+    color:transparent;
+}

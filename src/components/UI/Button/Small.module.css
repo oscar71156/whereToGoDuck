@@ -1,0 +1,21 @@
+.smallButton {
+  padding: 3px 7px;
+  border: 1px solid #5172c9;
+  border-radius: 8px;
+  background-color: transparent;
+
+  font-size: 15px;
+  line-height: 20px;
+  text-align: center;
+  color: #5172c9;
+}
+
+.smallButton span{
+    display: inline-block;
+}
+
+
+.active{
+    background: #5172C9;
+    color: white;
+}

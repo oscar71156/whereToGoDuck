@@ -1,0 +1,9 @@
+.searchInput{
+    display: flex;
+    align-items: center;
+    padding:32px 0px 24px;
+}
+.searchInput .select{
+    flex-grow: 1;
+    margin-right: 10px;
+}
