@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/whereToGoDuck/static/css/main.1b94a519.css",
+    "main.js": "/whereToGoDuck/static/js/main.a4815c80.js",
+    "static/media/navigationBG.png": "/whereToGoDuck/static/media/navigationBG.3c155ff28e065048c577.png",
+    "static/media/whereTo-Taichung.png": "/whereToGoDuck/static/media/whereTo-Taichung.d676c60e85f3a7486357.png",
+    "static/media/whereTo-Hualien.png": "/whereToGoDuck/static/media/whereTo-Hualien.48969737bcd03567d4a4.png",
+    "static/media/whereTo-Nantou.png": "/whereToGoDuck/static/media/whereTo-Nantou.a906e48f61cc7230b0fe.png",
+    "static/media/whereTo-NewTaipei.png": "/whereToGoDuck/static/media/whereTo-NewTaipei.49065883ff3da6a63cee.png",
+    "static/media/imageNotFound.svg": "/whereToGoDuck/static/media/imageNotFound.396b04d816c00b26c55c46d0f234f6e9.svg",
+    "index.html": "/whereToGoDuck/index.html",
+    "main.1b94a519.css.map": "/whereToGoDuck/static/css/main.1b94a519.css.map",
+    "main.a4815c80.js.map": "/whereToGoDuck/static/js/main.a4815c80.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1b94a519.css",
+    "static/js/main.a4815c80.js"
+  ]
+}
