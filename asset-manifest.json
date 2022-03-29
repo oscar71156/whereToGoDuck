@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/whereToGoDuck/static/css/main.1b94a519.css",
-    "main.js": "/whereToGoDuck/static/js/main.a4815c80.js",
+    "main.js": "/whereToGoDuck/static/js/main.89644ec1.js",
     "static/media/navigationBG.png": "/whereToGoDuck/static/media/navigationBG.3c155ff28e065048c577.png",
     "static/media/whereTo-Taichung.png": "/whereToGoDuck/static/media/whereTo-Taichung.d676c60e85f3a7486357.png",
     "static/media/whereTo-Hualien.png": "/whereToGoDuck/static/media/whereTo-Hualien.48969737bcd03567d4a4.png",
@@ -10,10 +10,10 @@
     "static/media/imageNotFound.svg": "/whereToGoDuck/static/media/imageNotFound.396b04d816c00b26c55c46d0f234f6e9.svg",
     "index.html": "/whereToGoDuck/index.html",
     "main.1b94a519.css.map": "/whereToGoDuck/static/css/main.1b94a519.css.map",
-    "main.a4815c80.js.map": "/whereToGoDuck/static/js/main.a4815c80.js.map"
+    "main.89644ec1.js.map": "/whereToGoDuck/static/js/main.89644ec1.js.map"
   },
   "entrypoints": [
     "static/css/main.1b94a519.css",
-    "static/js/main.a4815c80.js"
+    "static/js/main.89644ec1.js"
   ]
 }
