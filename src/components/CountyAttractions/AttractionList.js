@@ -6,7 +6,7 @@ import { useDispatch,useSelector } from "react-redux";
 import {fecthAttractions} from '../../store/actions/countyAttractions'
 import { useParams } from "react-router-dom";
 
-const CountyAttractionList = ({ showFields, data, isForNearby=false }) => {
+const CountyAttractionList = ({data}) => {
 
   const dispatch=useDispatch();
   const isFetchALLAttractions=useSelector((state)=>state.countyAttractions.isFetchAll);
@@ -19,7 +19,7 @@ const CountyAttractionList = ({ showFields, data, isForNearby=false }) => {
     }
     if (data && data?.length > 0) {
       return (
-        <div>
+        <>
           {data.map(
             ({
               ScenicSpotName: name,
@@ -44,7 +44,7 @@ const CountyAttractionList = ({ showFields, data, isForNearby=false }) => {
           {!isFetchALLAttractions&&<div className={classes.button}>
             <MoreButton onClick={()=>{dispatch(fecthAttractions(county))}}/>
           </div>}
-        </div>
+        </>
       );
     }
 

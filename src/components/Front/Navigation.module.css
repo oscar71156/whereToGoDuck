@@ -46,3 +46,10 @@
   right: 75px;
   bottom: -30px;
 }
+
+
+@media (min-width:600px) and (max-width:900px) {
+  .searchGroup{
+      padding:0px 20px;
+  }
+}

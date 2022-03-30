@@ -101,8 +101,6 @@ const NearbySpot = () => {
     }
   };
 
-  console.log("attraction nearbyspot", attraction);
-
   return (
     <Modal>
       {_renderContent()}

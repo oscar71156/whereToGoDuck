@@ -8,3 +8,19 @@
     width: 100%;
     padding:0 30px;
 }
+
+@media screen and (min-width:600px) {
+    .countyAttraction{
+        padding-bottom: 40px;
+    }
+    .nearbyButton{
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (min-width:900px) {
+    .countyAttraction{
+        padding-bottom: 50px;
+    }
+}

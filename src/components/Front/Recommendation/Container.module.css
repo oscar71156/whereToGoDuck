@@ -18,3 +18,9 @@
     font-weight: bold;
     letter-spacing: 1px;
 }
+
+@media (min-width:600px) and (max-width:900px) {
+    .recommendation{
+        padding:40px 20px;
+    }
+  }

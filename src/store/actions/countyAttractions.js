@@ -1,5 +1,5 @@
 import { FETCH_COUNTY_ATTRACTIONS,SET_COUNTY_ISFETECHALL,FETCH_COUNTY_INIT_ATTRACTIONS } from "./types";
-import axios from "axios";
+import MOTCPTX from "../../apis/MOTCPTX ";
 import locations from "../../assets/locations";
 
 const FETCHAMOUNT = 10;
@@ -8,10 +8,14 @@ export const fecthAttractions = (county) => async(dispatch, getState) => {
   const { countyAttractions: countyAttractionsState } = getState();
   const { page: currentPage } = countyAttractionsState;
 
-  const data = locations.slice(
-    currentPage * FETCHAMOUNT,
-    (currentPage + 1) * FETCHAMOUNT
-  );
+  const response=await MOTCPTX.get(`/Tourism/ScenicSpot/${county}`,{
+    params:{
+      $top: FETCHAMOUNT,
+      $skip: currentPage * FETCHAMOUNT
+    }
+  });
+
+  const {data}=response;
   if(data&&data.length>0){
     dispatch({
         type: FETCH_COUNTY_ATTRACTIONS,
@@ -26,8 +30,12 @@ export const fecthAttractions = (county) => async(dispatch, getState) => {
 export const fecthInitAttractions = (county) => async(dispatch) => {
 
   
-    const currentPage=0;
-    const data = locations.slice(currentPage * FETCHAMOUNT,(currentPage + 1) * FETCHAMOUNT);
+    const response=await MOTCPTX.get(`/Tourism/ScenicSpot/${county}`,{
+      params:{
+        $top: FETCHAMOUNT
+      }
+    });
+    const {data}=response;
     if(data&&data.length>0){
       dispatch({
           type: FETCH_COUNTY_INIT_ATTRACTIONS,

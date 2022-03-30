@@ -32,7 +32,7 @@ const App = () => {
         }}
       >
         <div className={styles.App}>
-          <BrowserRouter>
+          <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Header />
             <Route path="/" component={
               FrontPage} exact />

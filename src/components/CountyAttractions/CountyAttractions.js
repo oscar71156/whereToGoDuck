@@ -34,8 +34,10 @@ const CountyAttractions=()=>{
 
     return(
         <div className={classes.countyAttractions}>
-            <SearchInput classes={searchInputClasses}/>
-            <CountyAttractionList data={countyAttractions}/>
+            <div className={classes.countyAttractionsContent}>
+                <SearchInput classes={searchInputClasses}/>
+                <CountyAttractionList data={countyAttractions}/>
+            </div>
         </div>
     )
 }
