@@ -1,83 +1,165 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import classes from "./CountyAttraction.module.css";
 import NearbyButton from "../UI/Button/NearbyButton";
 import Nearby from "../Nearby/Nearby";
 
-import county from "../../assets/county";
-import nearbyModalContext from "../../contexts/NearbyModalContext";
 import NearbySpotModalContext from "../../contexts/NearbySpotModalContext";
 
 import ScenicSpot from "./ScenicSpot";
 
-import { useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fecthInitAttractions } from "../../store/actions/countyAttractions";
-
+import { changeCountyAttractionFrom, fecthAttractionsByIdAndCounty } from "../../store/actions/countyAttractions";
+import {
+  clearCenterAttraction,
+  setCenterAttraction,
+} from "../../store/actions/nearbyAttractions";
+import NearbyModalContext from "../../contexts/NearbyModalContext";
 
 const CountyScenicSpot = () => {
-  const { attraction: attractionId, county: selectedCounty, nearbyType:nearbyTypeURL, nearbySpot:nearbySpotURL } = useParams();
+  const [attraction, setAttraction] = useState(null);
+  const {
+    attraction: attractionId,
+    county: selectedCounty,
+    nearbyType,
+    nearbySpot: nearbySpotId,
+  } = useParams();
 
-  const { isShow: isShowNearby, toggle: toggleNearby }=useContext(nearbyModalContext);
-
-  const {toggle:toggleNearbySpot}=useContext(NearbySpotModalContext);
-
-  const dispatch = useDispatch();
-
-  const attraction = useSelector((state) =>
-    state.countyAttractions.data
-      ? state.countyAttractions.data.find(
-          ({ ScenicSpotID }) => ScenicSpotID === attractionId
-        )
-      : null
+  const nearbyCenterAttraction = useSelector(
+    (state) => state.nearbyAttractions.centerAttraction
   );
 
-  const isNotFoundAttraction=useSelector((state)=>state.countyAttractions.isFetchAll);
+  const nearbyAttractions = useSelector(
+    (state) => state.nearbyAttractions.data
+  );
+
+  const isAttractionFromNearby = useSelector(
+    (state) => state.countyAttractions.isCountyAttractionFromNearby
+  );
+
+  const isLoadingData=useSelector(
+    (state) => state.countyAttractions.isLoading
+  );
+
+  const fetchingDataError=useSelector(
+    (state) => state.countyAttractions.error
+  );
+  const { toggle: toggleNearbySpot } = useContext(NearbySpotModalContext);
+
+  const {isShow:isShowNearby, toggle:toggleNearbyModal}=useContext(NearbyModalContext);
+  const dispatch = useDispatch();
+
+  const isNotFoundAttraction = useSelector(
+    (state) => state.countyAttractions.isFetchAll
+  );
 
   const countyAttractions = useSelector(
     (state) => state.countyAttractions.data
   );
 
-  useEffect(()=>{
-    if(!isShowNearby){
-      document.title=`要去哪裡鴨${attraction?'-'+attraction.ScenicSpotName:''}`
-    }
-  },[attraction,isShowNearby])
-
-
-  //For input url directly
   useEffect(() => {
-    if (!countyAttractions&&!isNotFoundAttraction) {
-      dispatch(fecthInitAttractions(selectedCounty,attractionId));
+    let foundAttraction = null;
+    if (isAttractionFromNearby) {
+      if (nearbyAttractions) {
+        foundAttraction = nearbyAttractions.find(
+          ({ ScenicSpotID }) => ScenicSpotID === attractionId
+        );
+      }
+    } else {
+      if (countyAttractions) {
+        foundAttraction = countyAttractions.find(
+          ({ ScenicSpotID }) => ScenicSpotID === attractionId
+        );
+      }
     }
-  }, [selectedCounty,isNotFoundAttraction]);
-  
-  //For input url directly => show nearbyModal or not
-  useEffect(()=>{
-    if(!nearbyTypeURL){
-      toggleNearby(false);
-    }else{
-      toggleNearby(true);
+
+    if (foundAttraction) {
+      setAttraction(foundAttraction)
+    } else {
+      if (!isNotFoundAttraction) {
+        dispatch(fecthAttractionsByIdAndCounty(selectedCounty, attractionId));
+      }
     }
-  },[nearbyTypeURL])
+  }, [
+    countyAttractions,
+    attractionId,
+    isAttractionFromNearby,
+    nearbyAttractions,
+    selectedCounty,
+    isNotFoundAttraction
+  ]);
 
 
+  useEffect(() => {
+    if (!nearbyCenterAttraction) {
+      document.title = `要去哪裡鴨${
+        attraction ? "-" + attraction.ScenicSpotName : ""
+      }`;
+    }
+  }, [attraction, nearbyCenterAttraction]);
+
+
+
+
+  ///=>:county/:attraction/nearby/:nearbyType",
+  //=>/:county/:attraction/nearby/:nearbyType/:nearbySpot"
+  //這兩個url都會使用到centerAttraction
+  useEffect(() => {
+    if (nearbyType&&attraction) {
+      dispatch(setCenterAttraction(attraction));
+    }
+  }, [nearbyType, attraction]);
+
+  ///modal control
   useEffect(()=>{
-    if(!nearbySpotURL){
+    if (nearbyType==='restaurant'|| nearbyType==='hotel'||(nearbyType==='scenicSpot'&&!nearbySpotId)) {
+      ///當中心點資料有時，才可以展開modal
+      if(nearbyCenterAttraction){
+        toggleNearbyModal(true);
+      }
+    } else {
+      toggleNearbyModal(false);
+    }
+  },[nearbyType,nearbySpotId,nearbyCenterAttraction])
+
+  useEffect(() => {
+    if (!nearbySpotId) {
       toggleNearbySpot(false);
-    }else{
+    } else {
       toggleNearbySpot(true);
     }
-  },[nearbySpotURL])
-  
+  }, [nearbySpotId]);
+
+  if(fetchingDataError){
+    return(<div>
+      {fetchingDataError}
+    </div>)
+  }
+
+
+  if(isNotFoundAttraction&&!attraction){
+    return(<div>can't find</div>)
+  }
+
+  if(isLoadingData||!attraction){
+    return(<div>仔入中</div>)
+  }
+
+
 
 
   return (
     <div className={classes.countyAttraction}>
       <ScenicSpot attraction={attraction} />
       <div className={classes.nearbyButton}>
-        <NearbyButton/>
+        <NearbyButton attraction={attraction} />
       </div>
-      {isShowNearby && <Nearby centeredAttraction={attraction} close={() => toggleNearby(false)} />}
+      {isShowNearby && (
+        <Nearby
+          centeredAttraction={attraction}
+          close={() => toggleNearbyModal(false)}
+        />
+      )}
     </div>
   );
 };

@@ -2,24 +2,20 @@ import classes from './NearbyButton.module.css';
 import { useSelector,useDispatch } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { useContext } from 'react';
+import { changeCountyAttractionFrom } from '../../../store/actions/countyAttractions';
 import NearbyModalContext from '../../../contexts/NearbyModalContext';
-import {
-    fetchInitAttractions as fetchInitNearbyAttractions,
-  } from "../../../store/actions/nearbyAttractions";
 
-const NearbyButton=()=>{
+const NearbyButton=({attraction})=>{
 
     const history=useHistory();
     const { attraction: attractionId, county: selectedCounty,nearbyType } = useParams();
 
     const dispatch=useDispatch();
 
-    const { toggle: toggleNearby }=useContext(NearbyModalContext);
 
     const _handleClick=()=>{
-        dispatch(fetchInitNearbyAttractions(attractionId,nearbyType));
-        toggleNearby(true);
-        history.push(`/${selectedCounty}/${attractionId}/nearby/scenicSpot`)
+        history.push(`/${selectedCounty}/${attractionId}/nearby/scenicSpot`);
+        dispatch(changeCountyAttractionFrom(true));
     }
     return(
         <button className={classes.nearbyButton} onClick={_handleClick}>

@@ -3,7 +3,6 @@ import NearbyList from "./NearbyList";
 import Modal from "../UI/Modal/Modal";
 import ButtonOptions from "./ButtonOptions";
 
-import NearbyModalContext from "../../contexts/NearbyModalContext";
 import NearbySpotModalContext from "../../contexts/NearbySpotModalContext";
 
 import NearbySpot from "../NearbySpot/NearbySpot";
@@ -11,32 +10,33 @@ import NearbySpot from "../NearbySpot/NearbySpot";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import { useDispatch,useSelector } from "react-redux";
 
-import { fetchInitAttractions } from "../../store/actions/nearbyAttractions";
+import { fetchAttractions as fetchNearbyAttractions, restNearbyFetchingStatus } from "../../store/actions/nearbyAttractions";
 import classes from "./Nearby.module.css";
 
 import CloseButton from "../UI/Button/Close";
+import NearbyModalContext from "../../contexts/NearbyModalContext";
 
 const Nearby = ({centeredAttraction}) => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-  const { nearbyType: nearbyTypeURL, county, attraction,nearbySpot } = useParams();
+  const { nearbyType,nearbySpot } = useParams();
 
-  const { toggle: toggleNearbyModal, isShow:isShowNearby } = useContext(NearbyModalContext);
   const {isShow:isShowNearbySpot}=useContext(NearbySpotModalContext);
+  const {toggle:toggleNearby}=useContext(NearbyModalContext)
 
-  const attractions=useSelector((state)=>state.nearbyAttractions.data);
+  const centerAttractionNearby=useSelector((state)=>state.nearbyAttractions.centerAttraction);
   const { pathname } = useLocation();
 
   const _handleCloseClick = () => {
-    history.push(pathname.replace(`/nearby/${nearbyTypeURL}`, ""));
-    toggleNearbyModal(false);
+    history.push(pathname.replace(`/nearby/${nearbyType}`, ""));
+    toggleNearby(false);
   };
 
   useEffect(()=>{
-    if(isShowNearby){
+    if(centerAttractionNearby){
       let nearbyTypeTW='觀光景點';
-      switch(nearbyTypeURL){
+      switch(nearbyType){
         case 'restaurant':
           nearbyTypeTW='餐飲';
           break;
@@ -51,16 +51,16 @@ const Nearby = ({centeredAttraction}) => {
       document.title=`要去哪裡鴨${centeredAttraction?.ScenicSpotName?"-"+centeredAttraction.ScenicSpotName+"的附近"+nearbyTypeTW:""}`
     }
 
-  },[centeredAttraction,isShowNearby,nearbyTypeURL])
+  },[centeredAttraction,centerAttractionNearby,nearbyType])
 
-  //input url change
   useEffect(() => {
-    if(!nearbySpot&&nearbyTypeURL&&!attractions){
-      dispatch(fetchInitAttractions(attraction,nearbyTypeURL));
-      const NEARBYTYPEPATH=`/${county}/${attraction}/nearby/${nearbyTypeURL}`
-      history.push(NEARBYTYPEPATH);
+
+    // console.log('nearbyType',nearbyType,'nearbySpot',nearbySpot)
+    if(!nearbySpot&&nearbyType){
+      dispatch(restNearbyFetchingStatus());
+      dispatch(fetchNearbyAttractions(nearbyType));
     }
-  }, [nearbyTypeURL,nearbySpot,attractions]);
+  }, [nearbyType,nearbySpot]);
 
   return (
     <>

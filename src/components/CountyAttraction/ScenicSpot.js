@@ -9,9 +9,9 @@ const ScenicSpot = ({ attraction }) => {
   const history = useHistory();
   const { county } = useParams();
 
-  if (!attraction) {
-    return <div>loading</div>;
-  }
+  // if (!attraction) {
+  //   return <div>loading</div>;
+  // }
 
   return (
     <div className={`${classes.scenicSpot} ${classes.deviceType}`}>

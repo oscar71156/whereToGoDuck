@@ -2,7 +2,7 @@ import SmallButton from "../UI/Button/Small";
 import classes from './ButtonOptions.module.css';
 import {useHistory,useParams} from 'react-router-dom';
 import { useDispatch,useSelector } from "react-redux";
-import { fetchInitAttractions } from "../../store/actions/nearbyAttractions";
+import { changeCountyAttractionFrom } from "../../store/actions/countyAttractions";
 
 const ButtonOptions=()=>{
     
@@ -12,8 +12,9 @@ const ButtonOptions=()=>{
 
     const _changeAttractionType=(newType)=>{
        
-        dispatch(fetchInitAttractions(attraction,newType));
-        history.push(`/${county}/${attraction}/nearby/${newType}`)
+        history.push(`/${county}/${attraction}/nearby/${newType}`);
+        let isCountyAttractionFromNearby=newType==='scenicSpot';
+        dispatch(changeCountyAttractionFrom(isCountyAttractionFromNearby));
     }
 
     return(<div className={classes.buttonOptions}>

@@ -4,39 +4,30 @@ import MoreButton from "../UI/Button/More";
 import NotFound from "../CountyAttractions/NotFound";
 import classes from "./NearbyList.module.css";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import {fetchAttractions,fetchInitAttractions} from '../../store/actions/nearbyAttractions'
+import { useCallback, useEffect } from "react";
+import {fetchAttractions as fetchNearbyAttractions} from '../../store/actions/nearbyAttractions'
 
 const NearbyList = () => {
 
   const attractions = useSelector((state) => state.nearbyAttractions.data);
-
   const isFetchAll=useSelector((state)=>state.nearbyAttractions.isFetchAll);
-
+  const fetchingDataError=useSelector((state)=>state.nearbyAttractions.error);
+  const isLoadingData=useSelector((state)=>state.nearbyAttractions.isLoading);
 
   const dispatch=useDispatch();
 
-  const {attraction:attractionId,nearbyType}=useParams();
-
-
-  //for input directly
-  useEffect(()=>{
-    if(!attractions){
-      dispatch(fetchInitAttractions(attractionId,nearbyType));
-    }
-  },[attractionId,nearbyType])
-
+  const {nearbyType}=useParams();
 
   const _handleMore=()=>{
-    dispatch(fetchAttractions(attractionId,nearbyType))
+    dispatch(fetchNearbyAttractions(nearbyType))
   }
 
-  const _mapFun = (attraction) => {
+  const _mapFun =useCallback( (attraction) => {
     switch (nearbyType) {
       case "hotel":
         return (
           <NearbyAttraction
-            key={attraction.HotelID}
+            key={nearbyType+attraction.HotelID}
             address={attraction.Address}
             name={attraction.HotelName}
             phone={attraction.Phone}
@@ -49,7 +40,7 @@ const NearbyList = () => {
       case "restaurant":
         return (
           <NearbyAttraction
-            key={attraction.RestaurantID}
+            key={nearbyType+attraction.RestaurantID}
             address={attraction.Address}
             name={attraction.RestaurantName}
             phone={attraction.Phone}
@@ -64,7 +55,7 @@ const NearbyList = () => {
       default:
         return (
           <NearbyAttraction
-            key={attraction.ScenicSpotID}
+            key={nearbyType+attraction.ScenicSpotID}
             name={attraction.ScenicSpotName}
             ticketInfo={attraction.TicketInfo}
             spotID={attraction.ScenicSpotID}
@@ -76,22 +67,31 @@ const NearbyList = () => {
           />
         );
     }
-  };
+  },[attractions]);
 
   const _renderContent = () => {
-    if (attractions && attractions?.length > 0) {
-      return (
-        <div>
-          {attractions.map(_mapFun)}
-          <div className={classes.button}>
 
-            {!isFetchAll&&<MoreButton onClick={_handleMore} />}
-          </div>
-        </div>
-      );
+
+    if(fetchingDataError){
+      return <div>{fetchingDataError}</div>
     }
 
-    return <NotFound />;
+
+    if(attractions&&attractions.length===0&&isFetchAll){
+      return <NotFound />;
+    }
+
+    return (
+      <div>
+        {attractions.map(_mapFun)}
+        {isLoadingData&&<div>載入中...</div>}
+        <div className={classes.button}>
+          {!isFetchAll&&<MoreButton onClick={_handleMore} />}
+        </div>
+      </div>
+    );
+    
+   
   };
 
   return <div className={classes.nearbyList}>{_renderContent()}</div>;

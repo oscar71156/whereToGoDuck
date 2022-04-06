@@ -15,6 +15,7 @@ function _getAuthorizationHeader() {
     return { 'Authorization': Authorization, 'X-Date': GMTString ,'Accept-Encoding': 'gzip'}; //如果要將js運行在伺服器，可額外加入 'Accept-Encoding': 'gzip'，要求壓縮以減少網路傳輸資料量
 }
 
+
 export default axios.create({
     baseURL:'https://ptx.transportdata.tw/MOTC/v2/',
     headers:{

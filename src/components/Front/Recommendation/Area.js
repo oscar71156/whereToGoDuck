@@ -1,14 +1,12 @@
 import styles from "./Area.module.css";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { changeInputCounty } from "../../../store/actions/selectedCounty";
 
 const Area = ({ imgSrc, imgAlt, caption, name }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const _handleClickNavigate = () => {
     history.push("/" + name);
-    dispatch(changeInputCounty(name));
   };
 
   return (

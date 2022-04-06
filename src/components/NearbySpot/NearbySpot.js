@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { fecthAttractionsByID } from "../../store/actions/nearbyAttractions";
+import { fecthAttractionsByIdAndNearbyType } from "../../store/actions/nearbyAttractions";
 import Restaurant from "./Restaurant";
 import Hotel from "./Hotel";
 const NearbySpot = () => {
@@ -21,9 +21,12 @@ const NearbySpot = () => {
     (state) => state.nearbyAttractions.data
   );
 
-  const isAttractionNotFound = useSelector(
+  const isFetchAllAttractions= useSelector(
     (state) => state.nearbyAttractions.isFetchAll
   );
+
+  const isLoadingData=useSelector((state)=>state.nearbyAttractions.isLoading);
+  const fetchingDataError=useSelector((state)=>state.nearbyAttractions.error);
 
 
   useEffect(()=>{
@@ -48,9 +51,11 @@ const NearbySpot = () => {
     
   },[attraction,nearbyType])
   
+
   useEffect(() => {
-    if (nearbySpot && nearbyAttractions) {
-      let findedAttraction = null;
+    console.log('useEffect in NearbySpot','nearbySpot',nearbySpot,'nearbyAttractions',nearbyAttractions)
+    let findedAttraction = null;
+    if (nearbyAttractions) {
       if (nearbyType === "restaurant") {
         findedAttraction = nearbyAttractions.find(
           ({ RestaurantID }) => RestaurantID === nearbySpot
@@ -60,19 +65,32 @@ const NearbySpot = () => {
           ({ HotelID }) => HotelID === nearbySpot
         );
       }
-
       setAttraction(findedAttraction);
-      if (!findedAttraction && !isAttractionNotFound) {
-        dispatch(
-          fecthAttractionsByID(nearbySpot, nearbyType, centerAttractionID)
-        );
-      }
     }
-  }, [nearbySpot, nearbyAttractions, nearbyType, isAttractionNotFound]);
+    
+    if(!findedAttraction&&!isFetchAllAttractions){
+      dispatch(
+        fecthAttractionsByIdAndNearbyType(nearbySpot, nearbyType, centerAttractionID)
+      );
+    }
+  }, [nearbySpot, nearbyAttractions, nearbyType, isFetchAllAttractions,centerAttractionID]);
 
+
+ 
+  useEffect(()=>{
+    if(isFetchAllAttractions&&!attraction&&(!nearbyAttractions||nearbyAttractions.length===0)){
+      throw new Error('cant find this site');
+    }
+  },[isFetchAllAttractions,attraction,nearbyAttractions])
 
   const _renderContent = () => {
-    if (!attraction) {
+    if(fetchingDataError){
+      return <div>內部發生錯誤</div>;
+    }
+    if(!attraction&&isFetchAllAttractions){
+      return (<div>嗚嗚找不到</div>)
+    }
+    if (isLoadingData||!attraction) {
       return <div>loading</div>;
     }
     if (nearbyType === "restaurant") {

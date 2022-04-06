@@ -1,25 +1,29 @@
 import Attraction from "../Attraction/Attraction";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory,useParams } from "react-router-dom";
 import { useContext} from "react";
-import nearbyModalContext from "../../contexts/NearbyModalContext";
 import NearbySpotModalContext from "../../contexts/NearbySpotModalContext";
+import { clearCenterAttraction } from "../../store/actions/nearbyAttractions";
+import NearbyModalContext from "../../contexts/NearbyModalContext";
 const NearbyAttraction=({address,name,phone,openTime,pictureAlt,pictureURL,ticketInfo,spotID})=>{
 
     const history=useHistory();
+    const dispatch=useDispatch();
     const {county,attraction,nearbyType}=useParams();
 
-    const {toggle:toggleNearbyModal}=useContext(nearbyModalContext);
     const {toggle:toggleNearbySpotModal}=useContext(NearbySpotModalContext);
+    const {toggle:toggleNearby}=useContext(NearbyModalContext);
 
     const handleImgClick=()=>{
         if(nearbyType==='scenicSpot'){
             history.push(`/${county}/${spotID}`);
-            toggleNearbyModal(false);
+            toggleNearby(false);
         }else{
             history.push(`/${county}/${attraction}/nearby/${nearbyType}/${spotID}`);
             toggleNearbySpotModal(true)
         }
+        // history.push(`/${county}/${attraction}/nearby/${nearbyType}/${spotID}`);
+
     }
     
     return(
