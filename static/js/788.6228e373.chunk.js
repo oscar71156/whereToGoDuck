@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwhere_to_go_duck=self.webpackChunkwhere_to_go_duck||[]).push([[788],{788:function(e,c,t){e.exports=t.p+"static/media/PingtungCounty.d0c57b9a204666cdc0a2.jpg"}}]);

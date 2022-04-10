@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwhere_to_go_duck=self.webpackChunkwhere_to_go_duck||[]).push([[953],{6953:function(e,t,u){e.exports=u.p+"static/media/ChanghuaCounty.6579fd4163b43e0788ae.jpg"}}]);

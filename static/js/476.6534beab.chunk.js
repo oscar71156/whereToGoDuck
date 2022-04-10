@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwhere_to_go_duck=self.webpackChunkwhere_to_go_duck||[]).push([[476],{7476:function(e,a,t){e.exports=t.p+"static/media/ChiayiCounty.0deaef8add091cbdaba0.jpg"}}]);

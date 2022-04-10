@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwhere_to_go_duck=self.webpackChunkwhere_to_go_duck||[]).push([[979],{9979:function(e,a,t){e.exports=t.p+"static/media/Tainan.26d1e6a53ee0af0426fd.jpg"}}]);

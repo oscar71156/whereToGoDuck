@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwhere_to_go_duck=self.webpackChunkwhere_to_go_duck||[]).push([[856],{6856:function(e,c,t){e.exports=t.p+"static/media/Keelung.d8f35a1139c2494508a9.jpg"}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwhere_to_go_duck=self.webpackChunkwhere_to_go_duck||[]).push([[262],{4262:function(e,c,s){e.exports=s.p+"static/media/Hsinchu.d09cea516d2ec8c9bfd5.jpg"}}]);

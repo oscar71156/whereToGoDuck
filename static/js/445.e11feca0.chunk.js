@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwhere_to_go_duck=self.webpackChunkwhere_to_go_duck||[]).push([[445],{8445:function(e,a,t){e.exports=t.p+"static/media/Taipei.a9b4977058ad87d42a0e.jpg"}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwhere_to_go_duck=self.webpackChunkwhere_to_go_duck||[]).push([[843],{2843:function(e,c,t){e.exports=t.p+"static/media/PenghuCounty.bf4f813aca7dc2011e3a.jpg"}}]);
