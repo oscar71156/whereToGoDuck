@@ -1,112 +1,103 @@
-.attraction{
-    border-bottom: 1px solid rgba(51, 51, 51, .3);
-    padding: 16px 0;
-    width: 100%;
-    color:#333;
+.attraction {
+  border-bottom: 1px solid rgba(51, 51, 51, 0.3);
+  padding: 16px 0;
+  width: 100%;
+  color: #333;
+  overflow: hidden;
 }
 
-.attraction .information h5{
-    font-size: 18px;
-    font-weight: bold;
-    flex-basis: 20px;
-    line-height: 20px;
+.attraction img {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  display: inline-block;
+  object-fit: cover;
+  vertical-align: top;
+  cursor: pointer;
+}
+
+.information {
+  padding-left: 15px;
+  line-height: 20px;
+  font-size: 15px;
+  width: calc(100% - 100px);
+  display: inline-block;
+}
+
+.information h5 {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 20px;
+  margin-bottom: 2px;
+}
+
+.item {
+  display: flex;
+  /* for mutiple line, align flex-start */
+  align-items: flex-start;
+  margin: 2px 0px;
+}
+
+.icon {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+}
+.icon svg {
+  margin-top: 3.5px;
+}
+.text {
+  width: calc(100% - 50px);
+}
+
+.text.short {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media screen and (min-width: 600px) {
+  .information h5 {
+    font-size: 20px;
+    line-height: 25px;
     margin-bottom: 2px;
-}
+  }
 
-.attraction img{
-    width: 100px;
-    height: 100px;
-    border-radius: 8px;
-    display: inline-block;
-    object-fit: cover;
-}
-
-.information{
-    padding-left: 15px;
+  .information {
+    padding-left: 20px;
     line-height: 20px;
     font-size: 15px;
-    width: calc(100% - 100px);
-    vertical-align: top;
+    width: calc(100% - 150px);
+  }
+
+  .attraction img {
+    width: 150px;
+    height: 150px;
+    border-radius: 8px;
     display: inline-block;
+  }
+
+  .information {
+    font-size: 16px;
+  }
+  .item {
+    margin: 8px 0px;
+  }
+  .text.short {
+    white-space: normal;
+  }
 }
 
-.item{
-    display: flex;
-    align-items: flex-start;
-    flex:1;
-    width: 100%;
-    margin:2px 0px;
-}
+@media screen and (min-width: 900px) {
+  .information {
+    width: calc(100% - 200px);
+  }
 
-.icon{
-    width: 20px;
-    min-width: 20px;
-    height: 20px;
-}
-.icon svg{
-    margin-top: 3.5px;
-}
-.text{
-    width: calc(100% - 50px);
-}
-
-.text.short{
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-@media  screen and (min-width:600px) {
-
-    .attraction .information h5{
-        font-size: 20px;
-        line-height: 25px;
-        margin-bottom: 2px;
-    }
-    
-    .information{
-        padding-left: 20px;
-        line-height: 20px;
-        font-size: 15px;
-        width: calc(100% - 150px);
-        vertical-align: top;
-        display: inline-block;
-    }
-   
-    .attraction img{
-        width: 150px;
-        height: 150px;
-        border-radius: 8px;
-        display: inline-block;
-    }
-
-    .information{
-        font-size: 16px;
-    }
-    .item{
-        margin:8px 0px;
-    }
-    .text.short{
-        white-space:normal
-    }
-}
-
-@media  screen and (min-width:900px) {
-
-    .attraction .information h5{
-      
-    }
-    
-    .information{
-        width: calc(100% - 200px);
-    }
-   
-    .attraction img{
-        width: 200px;
-        height: 200px;
-    }
-    .item{
-        margin:12px 0px;
-    }
-
+  .attraction img {
+    width: 200px;
+    height: 200px;
+  }
+  .item {
+    margin: 12px 0px;
+  }
 }

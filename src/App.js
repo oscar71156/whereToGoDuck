@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./App.module.css";
 import Header from "./components/Header";
 import FrontPage from "./components/Front/FrontPage";
@@ -43,7 +43,7 @@ const App = () => {
               path={[
                 "/:county/:attraction",
                 "/:county/:attraction/nearby/:nearbyType(scenicSpot|hotel|restaurant)",
-                "/:county/:attraction/nearby/:nearbyType/:nearbySpot",
+                "/:county/:attraction/nearby/:nearbyType(scenicSpot|hotel|restaurant)/:nearbySpot",
               ]}
               component={CountyAttraction}
               exact

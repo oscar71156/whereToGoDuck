@@ -1,10 +1,19 @@
-/* .CountyAttractionList{
-    padding-bottom: 40px;
-    height: calc(100% - 110px);
-    overflow: auto;
-} */
+.errorInfor {
+  padding-top: 60px;
+  text-align: center;
+}
 
-.button{
-    width: 100%;
-    padding:40px 0;
+.button {
+  width: 100%;
+  padding: 40px 0;
+}
+
+.notFound {
+  /* for making item vertical and horizontal center */
+  height: calc(100vh - 222px);
+}
+
+.isLoading {
+  padding: 15px 0px;
+  text-align: center;
 }

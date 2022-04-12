@@ -1,0 +1,25 @@
+.recommendation {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.recommendation h3 {
+  font-size: 18px;
+}
+
+.recommendation button {
+  width: 100%;
+  padding: 16px 0px;
+  border-radius: 24px;
+
+  color: #333;
+  letter-spacing: 1px;
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+  .recommendation {
+    padding: 40px 20px;
+  }
+}

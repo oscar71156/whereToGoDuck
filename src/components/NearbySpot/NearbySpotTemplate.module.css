@@ -1,0 +1,79 @@
+.nearbySpotTemplate {
+  margin-top: 14px;
+  height: calc(100% - 14px);
+  overflow: auto;
+}
+
+.image {
+  height: 180px;
+  background-color: #fafafa;
+}
+.image img {
+  height: 100%;
+  /* for object-fit */
+  width: 100%;
+}
+
+.existingImage {
+  object-fit: cover;
+}
+.inExistingImage {
+  object-fit: contain;
+}
+
+.content {
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: normal;
+  padding: 24px;
+}
+
+.item {
+  margin: 12px 0;
+  display: flex;
+  flex-direction: row;
+}
+.text {
+  font-size: 15px;
+  line-height: 20px;
+  margin-left: 5px;
+}
+
+.icon {
+  width: 16px;
+}
+.icon svg {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+}
+
+.description {
+  border-bottom: 1px solid rgba(51, 51, 51, 0.2);
+  border-top: 1px solid rgba(51, 51, 51, 0.2);
+  padding: 25px 0px;
+  font-size: 15px;
+  line-height: 20px;
+  color: #4f4f4f;
+}
+
+@media screen and (min-width: 600px) {
+  .image {
+    height: 300px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .image {
+    height: 300px;
+  }
+  .image img {
+    object-fit: contain;
+  }
+  .content {
+    padding: 24px 80px;
+  }
+  .description {
+    padding: 25px 30px;
+  }
+}

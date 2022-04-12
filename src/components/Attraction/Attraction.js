@@ -1,3 +1,5 @@
+//used in NearbyList(Nearby), CountyAttraction(AttractionList->CountyAttractions)
+import React from "react";
 import classes from "./Attraction.module.css";
 import {
   Phone as IconPhone,
@@ -6,9 +8,7 @@ import {
   Money as IconMoney,
 } from "../../assets/icons";
 
-
 import imageNotFoundURL from "../../assets/icons/imageNotFound.svg";
-
 
 const Attraction = ({
   name,
@@ -19,23 +19,20 @@ const Attraction = ({
   pictureAlt,
   distance,
   phone,
-  onImgClick
+  onImgClick,
 }) => {
-
-
   return (
     <div className={classes.attraction}>
-        <img
-          src={pictureURL ? pictureURL : imageNotFoundURL}
-          alt={pictureAlt ? pictureAlt : "No picture"}
-          onError={(e) => {
-            console.error("img error", e);
-          }}
-          onClick={onImgClick}
-        />
+      <img
+        src={pictureURL ? pictureURL : imageNotFoundURL}
+        alt={pictureAlt ? pictureAlt : "No picture"}
+        onError={(e) => {
+          e.target.src = imageNotFoundURL;
+        }}
+        onClick={onImgClick}
+      />
       <div className={classes.information}>
         <h5>{name}</h5>
-
         {address && (
           <div className={classes.item}>
             <span className={classes.icon}>
@@ -82,4 +79,4 @@ const Attraction = ({
     </div>
   );
 };
-export default Attraction;
+export default React.memo(Attraction);

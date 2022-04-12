@@ -1,20 +1,19 @@
 import { useEffect, useContext, useState } from "react";
 import classes from "./CountyAttraction.module.css";
-import NearbyButton from "../UI/Button/NearbyButton";
+import NearbyButton from "../UI/Button/Nearby";
 import Nearby from "../Nearby/Nearby";
 
 import NearbySpotModalContext from "../../contexts/NearbySpotModalContext";
 
 import ScenicSpot from "./ScenicSpot";
-
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { changeCountyAttractionFrom, fecthAttractionsByIdAndCounty } from "../../store/actions/countyAttractions";
 import {
-  clearCenterAttraction,
-  setCenterAttraction,
-} from "../../store/actions/nearbyAttractions";
+  fecthAttractionsByIdAndCounty,
+} from "../../store/actions/countyAttractions";
+import { setCenterAttraction } from "../../store/actions/nearbyAttractions";
 import NearbyModalContext from "../../contexts/NearbyModalContext";
+import NotFound from "../NotFound";
 
 const CountyScenicSpot = () => {
   const [attraction, setAttraction] = useState(null);
@@ -37,16 +36,18 @@ const CountyScenicSpot = () => {
     (state) => state.countyAttractions.isCountyAttractionFromNearby
   );
 
-  const isLoadingData=useSelector(
+  const isLoadingData = useSelector(
     (state) => state.countyAttractions.isLoading
   );
 
-  const fetchingDataError=useSelector(
+  const fetchingDataError = useSelector(
     (state) => state.countyAttractions.error
   );
   const { toggle: toggleNearbySpot } = useContext(NearbySpotModalContext);
 
-  const {isShow:isShowNearby, toggle:toggleNearbyModal}=useContext(NearbyModalContext);
+  const { isShow: isShowNearby, toggle: toggleNearbyModal } =
+    useContext(NearbyModalContext);
+
   const dispatch = useDispatch();
 
   const isNotFoundAttraction = useSelector(
@@ -67,6 +68,7 @@ const CountyScenicSpot = () => {
       }
     } else {
       if (countyAttractions) {
+
         foundAttraction = countyAttractions.find(
           ({ ScenicSpotID }) => ScenicSpotID === attractionId
         );
@@ -74,7 +76,7 @@ const CountyScenicSpot = () => {
     }
 
     if (foundAttraction) {
-      setAttraction(foundAttraction)
+      setAttraction(foundAttraction);
     } else {
       if (!isNotFoundAttraction) {
         dispatch(fecthAttractionsByIdAndCounty(selectedCounty, attractionId));
@@ -86,9 +88,8 @@ const CountyScenicSpot = () => {
     isAttractionFromNearby,
     nearbyAttractions,
     selectedCounty,
-    isNotFoundAttraction
+    isNotFoundAttraction,
   ]);
-
 
   useEffect(() => {
     if (!nearbyCenterAttraction) {
@@ -98,29 +99,30 @@ const CountyScenicSpot = () => {
     }
   }, [attraction, nearbyCenterAttraction]);
 
-
-
-
   ///=>:county/:attraction/nearby/:nearbyType",
   //=>/:county/:attraction/nearby/:nearbyType/:nearbySpot"
   //這兩個url都會使用到centerAttraction
   useEffect(() => {
-    if (nearbyType&&attraction) {
+    if (nearbyType && attraction) {
       dispatch(setCenterAttraction(attraction));
     }
   }, [nearbyType, attraction]);
 
   ///modal control
-  useEffect(()=>{
-    if (nearbyType==='restaurant'|| nearbyType==='hotel'||(nearbyType==='scenicSpot'&&!nearbySpotId)) {
-      ///當中心點資料有時，才可以展開modal
-      if(nearbyCenterAttraction){
+  useEffect(() => {
+    if (
+      nearbyType === "restaurant" ||
+      nearbyType === "hotel" ||
+      (nearbyType === "scenicSpot" && !nearbySpotId)
+    ) {
+      ///當中心點資料有時，才可以展開modal，因為modal內的資料有需要有中心點資料
+      if (nearbyCenterAttraction) {
         toggleNearbyModal(true);
       }
     } else {
       toggleNearbyModal(false);
     }
-  },[nearbyType,nearbySpotId,nearbyCenterAttraction])
+  }, [nearbyType, nearbySpotId, nearbyCenterAttraction]);
 
   useEffect(() => {
     if (!nearbySpotId) {
@@ -130,38 +132,43 @@ const CountyScenicSpot = () => {
     }
   }, [nearbySpotId]);
 
-  if(fetchingDataError){
-    return(<div>
-      {fetchingDataError}
-    </div>)
-  }
+  const _renderContent = () => {
+    if (fetchingDataError) {
+      return (
+        <p className={classes.error}>
+          內部發生錯誤，稍待片刻再重新整理或洽詢管理員。
+        </p>
+      );
+    }
 
+    if (isNotFoundAttraction && !attraction) {
+      return (
+        <div className={classes.notFound}>
+          <NotFound />
+        </div>
+      );
+    }
 
-  if(isNotFoundAttraction&&!attraction){
-    return(<div>can't find</div>)
-  }
+    if (isLoadingData || !attraction) {
+      return (
+        <div className={classes.isLoading}>
+          <p>載入中...</p>
+          <p>請稍候...</p>
+        </div>
+      );
+    }
+    return (
+      <>
+        <ScenicSpot attraction={attraction} />
+        <div className={classes.nearbyButton}>
+          <NearbyButton attraction={attraction} />
+        </div>
+        {isShowNearby && <Nearby />}
+      </>
+    );
+  };
 
-  if(isLoadingData||!attraction){
-    return(<div>仔入中</div>)
-  }
-
-
-
-
-  return (
-    <div className={classes.countyAttraction}>
-      <ScenicSpot attraction={attraction} />
-      <div className={classes.nearbyButton}>
-        <NearbyButton attraction={attraction} />
-      </div>
-      {isShowNearby && (
-        <Nearby
-          centeredAttraction={attraction}
-          close={() => toggleNearbyModal(false)}
-        />
-      )}
-    </div>
-  );
+  return <div className={classes.countyAttraction}>{_renderContent()}</div>;
 };
 
 export default CountyScenicSpot;

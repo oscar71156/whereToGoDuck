@@ -17,6 +17,8 @@ button{
     border: none;
     cursor: pointer; 
     user-select: none;
+    font-family: inherit;
+    font-weight: normal;
 }
 button:hover{
     outline: none;

@@ -1,7 +1,6 @@
 import {
   FETCH_NEARBY_ATTRACTIONS,
   SET_NEARBY_ISFETECHALL,
-  FETCH_NEARBY_INIT_ATTRACTIONS,
   SET_NEARBY_CENTER,
   SET_NEARBY_LOADING,
   SET_NEARBY_ERROR,
@@ -11,7 +10,6 @@ import nearbyAttraction from "../../assets/nearbyAttraction";
 import nearbyHotel from "../../assets/nearbyHotel";
 import nearbyRestaurant from "../../assets/nearbyRestaurant";
 import MOTCPTX from "../../apis/MOTCPTX ";
-import axios from "axios";
 const FETCHAMOUNT = 5;
 
 export const fetchAttractions = (nearbyType) => async (dispatch, getState) => {
@@ -30,27 +28,28 @@ export const fetchAttractions = (nearbyType) => async (dispatch, getState) => {
       totalData = nearbyHotel;
     } else {
     }
-    // let data = totalData.slice(
-    //   FETCHAMOUNT * currentPage,
-    //   FETCHAMOUNT * (currentPage + 1)
-    // );
+    let data = totalData.slice(
+      FETCHAMOUNT * currentPage,
+      FETCHAMOUNT * (currentPage + 1)
+    );
 
-    let url = "/Tourism/ScenicSpot";
-    if (nearbyType === "restaurant") {
-      url = "/Tourism/Restaurant";
-    } else if (nearbyType === "hotel") {
-      url = "/Tourism/Hotel";
-    } else {
-    }
+    // let url = "/Tourism/ScenicSpot";
+    // if (nearbyType === "restaurant") {
+    //   url = "/Tourism/Restaurant";
+    // } else if (nearbyType === "hotel") {
+    //   url = "/Tourism/Hotel";
+    // } else {
+    // }
 
-    const response=await MOTCPTX.get(url,{
-      params:{
-        $top:FETCHAMOUNT,
-        $skip: FETCHAMOUNT * currentPage,
-        $spatialFilter:`nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`
-      }
-    })
-    const {data}=response;
+    // const response=await MOTCPTX.get(url,{
+    //   params:{
+    //     $top:FETCHAMOUNT,
+    //     $skip: FETCHAMOUNT * currentPage,
+    //     $spatialFilter:`nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`
+    //   }
+    // })
+    // const {data}=response;
+
     if (data && data.length > 0) {
       dispatch({
         type: FETCH_NEARBY_ATTRACTIONS,
@@ -67,42 +66,6 @@ export const fetchAttractions = (nearbyType) => async (dispatch, getState) => {
   }
 };
 
-// const _fecthAttractions = async (
-//   centerAttractionPosition,
-//   nearbyType,
-//   currentPage
-// ) => {
-//   let totalData = nearbyAttraction;
-//   if (nearbyType === "restaurant") {
-//     totalData = nearbyRestaurant;
-//   } else if (nearbyType === "hotel") {
-//     totalData = nearbyHotel;
-//   } else {
-//   }
-//   let data = totalData.slice(
-//     FETCHAMOUNT * currentPage,
-//     FETCHAMOUNT * (currentPage + 1)
-//   );
-
-//   let url = "/Tourism/ScenicSpot";
-//   if (nearbyType === "restaurant") {
-//     url = "/Tourism/Restaurant";
-//   } else if (nearbyType === "hotel") {
-//     url = "/Tourism/Hotel";
-//   } else {
-//   }
-
-  // const response=await MOTCPTX.get(url,{
-  //   params:{
-  //     $top:FETCHAMOUNT,
-  //     $skip: FETCHAMOUNT * currentPage,
-  //     $spatialFilter:`nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`
-  //   }
-  // })
-  // const {data}=response;
-
-//   return data;
-// };
 
 const _changeIsFetchAll = (isFetchAll) => {
   return {
@@ -113,62 +76,42 @@ const _changeIsFetchAll = (isFetchAll) => {
 
 
 
-// export const fetchAttractions2 = (nearbyType) => async (dispatch, getState) => {
-//   const { nearbyAttractions: nearbyAttractionsState } = getState();
-//   const { page: currentPage, centerAttraction } = nearbyAttractionsState;
-//   const fetchedData = await _fecthAttractions(
-//     centerAttraction.Position,
-//     nearbyType,
-//     currentPage
-//   );
-//   if (fetchedData && fetchedData.length > 0) {
-//     dispatch({
-//       type: FETCH_NEARBY_ATTRACTIONS,
-//       payload: fetchedData,
-//     });
-//   } else {
-//     dispatch({
-//       type: SET_NEARBY_ISFETECHALL,
-//       payload: true,
-//     });
-//   }
-// };
 
 export const fecthAttractionsByIdAndNearbyType = 
 (attractionID, nearbyType, centerAttractionId) =>
   async (dispatch, getState) => {
     try{
       dispatch(_setIsLoadingData(true))
-      // let data = [];
-      // if (nearbyType === "restaurant") {
-      //   data = nearbyRestaurant;
-      // } else if (nearbyType === "hotel") {
-      //   data = nearbyHotel;
-      // } else {
-      //   data = nearbyAttraction;
-      // }
-  
-      const { nearbyAttractions: nearbyAttractionsState } = getState();
-      const { centerAttraction } = nearbyAttractionsState;
-      console.log('centerAttraction',centerAttraction)
-
-      const { Position: centerAttractionPosition } = centerAttraction;
-      let url = "/Tourism/ScenicSpot";
+      let data = [];
       if (nearbyType === "restaurant") {
-        url = "/Tourism/Restaurant";
+        data = nearbyRestaurant;
       } else if (nearbyType === "hotel") {
-        url = "/Tourism/Hotel";
+        data = nearbyHotel;
       } else {
+        data = nearbyAttraction;
       }
   
-      // console.log("centerAttractionPosition",centerAttractionPosition)
-      const response=await MOTCPTX.get(url,{
-        params:{
-          $spatialFilter:`nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`
-        }
-      })
+      // const { nearbyAttractions: nearbyAttractionsState } = getState();
+      // const { centerAttraction } = nearbyAttractionsState;
+      // console.log('centerAttraction',centerAttraction)
+
+      // const { Position: centerAttractionPosition } = centerAttraction;
+      // let url = "/Tourism/ScenicSpot";
+      // if (nearbyType === "restaurant") {
+      //   url = "/Tourism/Restaurant";
+      // } else if (nearbyType === "hotel") {
+      //   url = "/Tourism/Hotel";
+      // } else {
+      // }
   
-      let {data}=response;
+      // console.log("centerAttractionPosition",centerAttractionPosition)
+      // const response=await MOTCPTX.get(url,{
+      //   params:{
+      //     $spatialFilter:`nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`
+      //   }
+      // })
+  
+      // let {data}=response;
       if (data.length > 0) {
         if (nearbyType === "restaurant") {
           data = data.filter(({ RestaurantID }) => RestaurantID === attractionID);
@@ -201,12 +144,12 @@ export const setCenterAttraction = (attraction) => {
   };
 };
 
-export const clearCenterAttraction = () => {
-  return {
-    type: SET_NEARBY_CENTER,
-    payload: null,
-  };
-};
+// export const clearCenterAttraction = () => {
+//   return {
+//     type: SET_NEARBY_CENTER,
+//     payload: null,
+//   };
+// };
 
 export const restNearbyFetchingStatus=()=>{
   return{

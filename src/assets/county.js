@@ -1,4 +1,4 @@
-export default [
+const counties = [
   {
     name: "Taipei",
     nameTW: "臺北",
@@ -25,3 +25,10 @@ export default [
   { name: "PenghuCounty", nameTW: "澎湖" },
   { name: "LienchiangCounty", nameTW: "馬祖" },
 ];
+
+export const  getTWName=(oriName)=>{
+  const findedCounty =counties.find(({ name }) => name === oriName);
+  return findedCounty?findedCounty.nameTW:'';
+}
+
+export default counties;

@@ -3,28 +3,35 @@ import BackButton from "../UI/Button/Back";
 import { Pen, Money, OpenTime, Location, Phone } from "../../assets/icons";
 import imageNotFoundURL from "../../assets/icons/imageNotFound.svg";
 
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const ScenicSpot = ({ attraction }) => {
   const history = useHistory();
-  const { county } = useParams();
+  const [isExistingPicture, setIsExistingPicture] = useState(false);
 
-  // if (!attraction) {
-  //   return <div>loading</div>;
-  // }
-
+  useEffect(() => {
+    if (attraction.Picture && attraction.Picture.PictureUrl1) {
+      setIsExistingPicture(true);
+    } else {
+      setIsExistingPicture(false);
+    }
+  }, [attraction.Picture]);
   return (
-    <div className={`${classes.scenicSpot} ${classes.deviceType}`}>
+    <div className={classes.scenicSpot}>
       <div className={classes.pictureAndContent}>
+        <div className={classes.backButton}>
+          <BackButton
+            onClick={() => {
+              history.goBack();
+            }}
+          />
+        </div>
         <div className={classes.image}>
-          <div className={classes.backButton}>
-            <BackButton
-              onClick={() => {
-                history.replace(`/${county}`);
-              }}
-            />
-          </div>
           <img
+            className={`${
+              isExistingPicture ? classes.imageExist : classes.imageInexist
+            }`}
             src={
               attraction.Picture.PictureUrl1
                 ? attraction.Picture.PictureUrl1
@@ -35,8 +42,13 @@ const ScenicSpot = ({ attraction }) => {
                 ? attraction.Picture.PictureDescription1
                 : "no picture"
             }
+            onError={(e) => {
+              e.target.src = imageNotFoundURL;
+              setIsExistingPicture(false);
+            }}
           />
         </div>
+
         <div className={classes.content}>
           <h5>{attraction.ScenicSpotName}</h5>
           <div className={classes.item}>

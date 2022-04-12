@@ -5,51 +5,58 @@
   background-position: center;
   padding: 40px 20px 0;
   height: 500px;
-}
-.searchGroup{
-  width: 100%;
-  max-width: 900px;
-  margin:0 auto;
+  color: white;
 }
 
 .description {
-  color: white;
   font-weight: bold;
-  /* padding: 10px 0px; */
   font-size: 18px;
   line-height: 20px;
-  letter-spacing: 0.05rem;
+  letter-spacing: 0.25px;
 }
 .navigation h3 {
-  color: white;
-  font-weight: Regular;
+  font-weight: bold;
   font-size: 15px;
   line-height: 20px;
   margin-top: 15px;
 }
-
-/* .navigation select {
-  height: 50px;
-  border-radius: 24px;
-  text-indent: 20px;
-  margin: 20px 0;
-} */
-
-.navigation .whereDuck {
+.whereDuck {
   position: absolute;
   right: 0;
   bottom: -36px;
 }
 
-.navigation .hereDuck {
+.hereDuck {
   position: absolute;
   right: 75px;
   bottom: -30px;
 }
 
+@media (min-width: 600px) and (max-width: 900px) {
+  .searchGroup {
+    padding: 0px 20px;
+  }
+}
 
-@media (min-width:600px) and (max-width:900px) {
-  .searchGroup{
-      padding:0px 20px;
+@media (min-width: 600px) {
+  .searchGroup {
+    margin-top: 25px;
+  }
+}
+
+@media (min-width: 900px) {
+  .searchGroup {
+    margin-right: auto;
+    margin-left: auto;
+    max-width: 900px;
+  }
+  .description {
+    font-size: 22px;
+    line-height: 22px;
+    letter-spacing: 0.8px;
+  }
+  .navigation h3 {
+    font-size: 18px;
+    margin-top: 20px;
   }
 }

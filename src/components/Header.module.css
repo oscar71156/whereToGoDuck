@@ -1,22 +1,22 @@
-.header{
+.header {
+  display: flex;
+  align-items: center;
+  height: 48px;
+}
+
+.header h1 {
+  margin-left: 5px;
+}
+
+.header .icon {
+  margin-left: 15px;
+  margin-top: 8px;
+}
+
+@media screen and (min-width: 600px) {
+  .header {
     display: flex;
     align-items: center;
-    height: 48px;
-}
-
-.header h1{
-    margin-left: 5px;
-}
-
-.header .icon{
-    margin-left: 15px;
-    margin-top: 8px;
-}
-
-@media screen and (min-width:900px) {
-    .header{
-        display: flex;
-        align-items: center;
-        height: 58px;
-    }
+    height: 58px;
+  }
 }

@@ -11,6 +11,7 @@ const initState = {
   page: 0,
   data: [],
   isFetchAll: false,
+  ///因為首頁景點及附近景點細節會呈現在同一頁(path:"/:county/:attraction")，用此作為判斷
   isCountyAttractionFromNearby: false,
   error: null,
   isLoading:false

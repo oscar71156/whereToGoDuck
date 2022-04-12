@@ -11,5 +11,4 @@ export const SET_NEARBY_ISFETECHALL='setIsFetchAllNearby';
 export const SET_NEARBY_LOADING='setNearbyIsLoadingData';
 export const SET_NEARBY_ERROR='setNearbyError';
 export const RESET_NEARBY_FETCHING_STATUS='resetNearbyFetchingStatusExceptCenterAttraction';
-export const FETCH_NEARBY_INIT_ATTRACTIONS='fetchNearbyInitAttractions';
 

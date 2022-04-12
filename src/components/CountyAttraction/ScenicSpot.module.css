@@ -1,142 +1,138 @@
-.scenicSpot{
-    color:#333;
+.scenicSpot {
+  color: #333;
 }
-.pictureAndContent{
 
-}
 
 .image{
-    width: 100%;
-    height: min-content;
-
+  max-width: 900px;
+  margin:0 auto; 
 }
-.backButton{
-    position:absolute;
-    top:24px;
-    left: 19px;
-    z-index: 1;
-    background-color: transparent;
-}
-
-
 .image img{
-    width: 100%;
-    height: auto;
+  max-height: 400px;
+  width: 100%;
+}
+
+
+.imageExist {
+  object-fit: cover;
+  height: 100%;
+}
+
+.imageInexist {
+  object-fit: contain;
+  height: 250px;
+
+}
+
+.backButton {
+  position: absolute;
+  top: 24px;
+  left: 19px;
+  z-index: 1;
+  background-color: transparent;
+}
+
+.content {
+  padding: 0 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.content h5 {
+  margin: 24px 0 18px;
+  line-height: 24px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.item {
+  margin: 6px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.content .text {
+  font-size: 15px;
+  line-height: 20px;
+  margin-left: 5px;
+}
+
+.content .icon {
+  width: 16px;
+}
+.content .icon svg {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+}
+
+.description {
+  border-bottom: 1px solid rgba(51, 51, 51, 0.2);
+  border-top: 1px solid rgba(51, 51, 51, 0.2);
+  padding: 24px 0px;
+  margin: 24px 20px 18px;
+
+  font-size: 15px;
+  line-height: 20px;
+  color: #4f4f4f;
+}
+
+@media screen and (min-width: 600px) {
+  .content {
+    width: max-content;
+    max-width: 600px;
+    padding: 20px 0px 0px;
+  }
+  .description {
+    max-width: 600px;
+    margin: 40px auto 40px;
+    padding: 40px 120px;
+  }
+  .backButton {
+    border: 2px solid #5172c9;
+    border-radius: 5px;
+  }
+  .imageExist img {
+    object-fit: contain;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .content {
+    padding: 30px 0px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .pictureAndContent {
     max-width: 900px;
-    max-height: 400px;
-    object-fit: cover;
-    display: block;
-    margin:0 auto;
-}
-
-
-.content{
-    padding: 0 20px;
-    max-width: 900px;
-    margin:0 auto;
-}
-
-.content h5{
-    margin: 24px 0 18px;
-    line-height: 24px;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.item{
-    margin:6px 0;
-    display: flex;
-    flex-direction: row;
-}
-
-.content .text{
-    font-size: 15px;
-    line-height: 20px;
-    margin-left: 5px;
-
-}
-
-
-.content .icon{
-    width: 16px;
-
-}
-.content .icon svg{
+    margin: 0 auto;
+  }
+  .image {
+    width: 400px;
     display: inline-block;
-    width: 12px;
-    height: 12px;
-    margin-bottom: 3px;
-}
+    vertical-align: top;
+  }
+  .backButton {
+    display: none;
+  }
 
-.description{
-    border-bottom: 1px solid rgba(51,51,51,.2);
-    border-top: 1px solid rgba(51,51,51,.2);
-    padding:24px 0px;
+  .content {
+    display: inline-block;
+    width: calc(100% - 400px);
+  
+    padding: 0px 0px 0px 20px;
+  }
 
-    font-size: 15px;
-    line-height: 20px;
-    color:#4F4F4F;
-    margin: 24px 20px 18px;
-}
+  .description {
+    max-width: 900px;
+    margin: 20px auto 40px;
+    padding: 40px 120px;
+    line-height: 25px;
+  }
 
-@media screen and (min-width:600px) {
-    .content{
-        width: max-content;
-        max-width: 600px;
-        padding:20px 0px 0px;
-        
-    }
-    .description{
-        max-width: 600px;
-        margin:40px auto 40px;
-        padding:40px 120px;
-    }
-}
-
-@media screen and (min-width:900px) {
-    .content{
-        padding:30px 0px;   
-    }
-}
-
-
-@media screen and (min-width:1200px) {
-    .pictureAndContent{
-        max-width: 900px;
-        margin:0 auto;
-    }
-    .image{
-      width: 400px;
-      display: inline-block;
-    
-    }
-    .backButton{
-       display: none;
-    }
-    
-    
-    .image img{
-    }
-
-    .content{
-        display: inline-block;
-        width: calc(100% - 400px);
-        vertical-align: top;
-        padding:0px 0px 0px 20px;
-    }
-
-    .description{
-        max-width: 900px;
-        margin:40px auto 40px;
-        padding:40px 60px;
-    }
-}
-
-@media screen and (min-width:1200px) {
-    .description{
-        max-width: 900px;
-        margin:40px auto 40px;
-        padding:40px 120px;
-        line-height: 25px;
-    }
+  .content h5{
+    margin-top: 14px;
+  }
 }

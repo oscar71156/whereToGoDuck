@@ -1,11 +1,15 @@
-.countyAttractions{
-    background-color: #e5e5e5;
-    padding:0 20px;
-    width: 100%;
+.countyAttractions {
+  background-color: #e5e5e5;
+  padding: 0 20px;
+  min-height: calc(100% - 116px);
 }
 
-.countyAttractionsContent{
-    max-width: 900px;
-    width: 100%;
-    margin:0 auto;
+.countyAttractionsContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+@media screen and (min-width: 600px) {
+  .countyAttractions {
+    min-height: calc(100% - 126px);
+  }
 }

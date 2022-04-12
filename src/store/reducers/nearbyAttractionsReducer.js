@@ -1,7 +1,6 @@
 import {
   FETCH_NEARBY_ATTRACTIONS,
   SET_NEARBY_ISFETECHALL,
-  FETCH_NEARBY_INIT_ATTRACTIONS,
   SET_NEARBY_CENTER,
   RESET_NEARBY_FETCHING_STATUS,
   SET_NEARBY_LOADING,
@@ -23,9 +22,7 @@ const nearbyAttractionsReducer = (state = initState, action) => {
       data: [...state.data, ...action.payload],
       page: state.page + 1,
     };
-  } else if (action.type === FETCH_NEARBY_INIT_ATTRACTIONS) {
-    return { ...state, page: 1, data: action.payload, isFetchAll: false };
-  } else if (action.type === SET_NEARBY_ISFETECHALL) {
+  }else if (action.type === SET_NEARBY_ISFETECHALL) {
     return { ...state, isFetchAll: action.payload };
   } else if (action.type === SET_NEARBY_CENTER) {
     return { ...state, centerAttraction: action.payload };

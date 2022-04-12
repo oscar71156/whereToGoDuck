@@ -1,10 +1,17 @@
-.nearbyList{
-    padding-bottom: 40px;
-    height: calc(100% - 110px);
-    overflow: auto;
+.nearbyList {
+  height: calc(100% - 60px);
+  overflow: auto;
 }
 
-.button{
-    width: 100%;
-    padding:40px 0;
+.error {
+  text-align: center;
+  padding: 40px 20px;
+}
+.loading {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.button {
+  padding: 40px 0;
 }

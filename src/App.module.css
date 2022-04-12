@@ -1,6 +1,4 @@
 .App{
-    /* width: 100vw; */
-    /* display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 48px min-content min-content; */
+ height: 100vh;
+ min-width: 300px;
 }

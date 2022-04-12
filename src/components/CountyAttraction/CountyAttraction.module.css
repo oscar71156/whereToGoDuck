@@ -1,26 +1,50 @@
-.countyAttraction{
-    padding-bottom: 80px;
+.countyAttraction {
+  min-height: calc(100% - 116px);
 }
 
-
-
-.nearbyButton{
-    width: 100%;
-    padding:0 30px;
+.error {
+  text-align: center;
+  padding: 50px 10px 0;
+}
+.notFound {
+  height: calc(100vh - 116px);
 }
 
-@media screen and (min-width:600px) {
-    .countyAttraction{
-        padding-bottom: 40px;
-    }
-    .nearbyButton{
-        max-width: 400px;
-        margin: 0 auto;
-    }
+.isLoading {
+  height: calc(100vh - 116px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.isLoading p {
+  padding: 10px 5px;
 }
 
-@media screen and (min-width:900px) {
-    .countyAttraction{
-        padding-bottom: 50px;
-    }
+.nearbyButton {
+  width: 100%;
+  padding: 0 30px 18px;
+}
+
+@media screen and (min-width: 600px) {
+  .countyAttraction {
+    min-height: calc(100% - 126px);
+  }
+  .notFound {
+    height: calc(100vh - 126px);
+  }
+
+  .isLoading {
+    height: calc(100vh - 126px);
+  }
+  .nearbyButton {
+    padding-bottom: 40px;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .nearbyButton {
+    padding-bottom: 50px;
+  }
 }

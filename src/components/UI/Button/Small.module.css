@@ -4,18 +4,19 @@
   border-radius: 8px;
   background-color: transparent;
 
-  font-size: 15px;
-  line-height: 20px;
   text-align: center;
   color: #5172c9;
+
+  height: 32px;
 }
 
-.smallButton span{
-    display: inline-block;
+.smallButton span {
+  display: inline-block;
+  line-height: 15px;
+  font-size: 15px;
 }
 
-
-.active{
-    background: #5172C9;
-    color: white;
+.active {
+  background: #5172c9;
+  color: white;
 }

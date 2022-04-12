@@ -15,19 +15,19 @@ export const fetchAttractions = (county) => async (dispatch, getState) => {
     dispatch(_setIsLoadingData(true));
     const { countyAttractions: countyAttractionsState } = getState();
     const { page: currentPage } = countyAttractionsState;
-    // const data = locations.slice(
-    //   currentPage * FETCHAMOUNT,
-    //   (currentPage + 1) * FETCHAMOUNT
-    // );
+    const data = locations.slice(
+      currentPage * FETCHAMOUNT,
+      (currentPage + 1) * FETCHAMOUNT
+    );
 
-    const response = await MOTCPTX.get(`/Tourism/ScenicSpot/${county}`, {
-      params: {
-        $top: FETCHAMOUNT,
-        $skip: currentPage * FETCHAMOUNT,
-      },
-    });
+    // const response = await MOTCPTX.get(`/Tourism/ScenicSpot/${county}`, {
+    //   params: {
+    //     $top: FETCHAMOUNT,
+    //     $skip: currentPage * FETCHAMOUNT,
+    //   },
+    // });
 
-    const { data } = response;
+    // const { data } = response;
     if (data && data.length > 0) {
       dispatch({
         type: FETCH_COUNTY_ATTRACTIONS,
@@ -62,9 +62,9 @@ export const fecthAttractionsByIdAndCounty = (county, attractionID) => async (di
 
     try{
       dispatch(_setIsLoadingData(true));
-      // let data = locations;
-      const response = await MOTCPTX.get(`/Tourism/ScenicSpot/${county}`);
-      let { data } = response;
+      let data = locations;
+      // const response = await MOTCPTX.get(`/Tourism/ScenicSpot/${county}`);
+      // let { data } = response;
       data = data.filter(({ ScenicSpotID }) => ScenicSpotID === attractionID);
       if (data && data.length > 0) {
         dispatch({
@@ -72,7 +72,6 @@ export const fecthAttractionsByIdAndCounty = (county, attractionID) => async (di
           payload: data,
         });
       }
-      // console.log('fecthAttractionsByIdAndCounty',data)
       dispatch(_fetchAllData());
       dispatch(_setIsLoadingData(false));
     }catch(e){
