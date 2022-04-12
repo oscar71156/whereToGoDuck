@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/whereToGoDuck/static/css/main.12b32853.css",
-    "main.js": "/whereToGoDuck/static/js/main.557b2a2a.js",
+    "main.css": "/whereToGoDuck/static/css/main.bbc5f665.css",
+    "main.js": "/whereToGoDuck/static/js/main.3ab66681.js",
     "static/js/953.f67515aa.chunk.js": "/whereToGoDuck/static/js/953.f67515aa.chunk.js",
     "static/js/764.1c08c242.chunk.js": "/whereToGoDuck/static/js/764.1c08c242.chunk.js",
     "static/js/476.6534beab.chunk.js": "/whereToGoDuck/static/js/476.6534beab.chunk.js",
@@ -49,11 +49,11 @@
     "static/media/LienchiangCounty.jpg": "/whereToGoDuck/static/media/LienchiangCounty.d13093b1263377dece5f.jpg",
     "static/media/imageNotFound.svg": "/whereToGoDuck/static/media/imageNotFound.396b04d816c00b26c55c46d0f234f6e9.svg",
     "index.html": "/whereToGoDuck/index.html",
-    "main.12b32853.css.map": "/whereToGoDuck/static/css/main.12b32853.css.map",
-    "main.557b2a2a.js.map": "/whereToGoDuck/static/js/main.557b2a2a.js.map"
+    "main.bbc5f665.css.map": "/whereToGoDuck/static/css/main.bbc5f665.css.map",
+    "main.3ab66681.js.map": "/whereToGoDuck/static/js/main.3ab66681.js.map"
   },
   "entrypoints": [
-    "static/css/main.12b32853.css",
-    "static/js/main.557b2a2a.js"
+    "static/css/main.bbc5f665.css",
+    "static/js/main.3ab66681.js"
   ]
 }
