@@ -1,5 +1,5 @@
 import classes from "./County.module.css";
-import county from "../../../assets/county";
+import county from "../../../assets/data/county";
 
 const CountySelect = ({ selectedCounty, onSelected }) => {
   const _handleSelect = (e) => {

@@ -26,9 +26,9 @@ const counties = [
   { name: "LienchiangCounty", nameTW: "馬祖" },
 ];
 
-export const  getTWName=(oriName)=>{
-  const findedCounty =counties.find(({ name }) => name === oriName);
-  return findedCounty?findedCounty.nameTW:'';
-}
+export const getTWName = (oriName) => {
+  const findedCounty = counties.find(({ name }) => name === oriName);
+  return findedCounty ? findedCounty.nameTW : "";
+};
 
 export default counties;

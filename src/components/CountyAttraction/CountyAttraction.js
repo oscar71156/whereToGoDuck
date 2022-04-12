@@ -8,10 +8,11 @@ import NearbySpotModalContext from "../../contexts/NearbySpotModalContext";
 import ScenicSpot from "./ScenicSpot";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { fecthAttractionsByIdAndCounty } from "../../store/actions/countyAttractions";
 import {
-  fecthAttractionsByIdAndCounty,
-} from "../../store/actions/countyAttractions";
-import { setCenterAttraction } from "../../store/actions/nearbyAttractions";
+  setCenterAttraction,
+  clearCenterAttraction,
+} from "../../store/actions/nearbyAttractions";
 import NearbyModalContext from "../../contexts/NearbyModalContext";
 import NotFound from "../NotFound";
 
@@ -68,7 +69,6 @@ const CountyScenicSpot = () => {
       }
     } else {
       if (countyAttractions) {
-
         foundAttraction = countyAttractions.find(
           ({ ScenicSpotID }) => ScenicSpotID === attractionId
         );
@@ -105,6 +105,8 @@ const CountyScenicSpot = () => {
   useEffect(() => {
     if (nearbyType && attraction) {
       dispatch(setCenterAttraction(attraction));
+    } else if (!nearbyType) {
+      dispatch(clearCenterAttraction(null));
     }
   }, [nearbyType, attraction]);
 

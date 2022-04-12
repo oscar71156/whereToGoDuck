@@ -9,23 +9,25 @@ import NearbyModalContext from "./contexts/NearbyModalContext";
 
 import Footer from "./components/Footer";
 import { BrowserRouter, Route } from "react-router-dom";
-import county from "./assets/county";
+import county from "./assets/data/county";
 
-
-
-const countyRegexStr=county.reduce((acc,{name},currentIndex,array)=>array.length===currentIndex+1?acc+name:acc+name+'|',"");
-
+const countyRegexStr = county.reduce(
+  (acc, { name }, currentIndex, array) =>
+    array.length === currentIndex + 1 ? acc + name : acc + name + "|",
+  ""
+);
 
 const App = () => {
-
-  const [isShowNearby, setIsShowNearby]=useState(false);
+  const [isShowNearby, setIsShowNearby] = useState(false);
   const [isShowNearbySpot, setIsShowNearbySpot] = useState(false);
 
   return (
-    <NearbyModalContext.Provider value={{
-      isShow:isShowNearby,
-      toggle:(isShow)=>setIsShowNearby(isShow)
-    }}>
+    <NearbyModalContext.Provider
+      value={{
+        isShow: isShowNearby,
+        toggle: (isShow) => setIsShowNearby(isShow),
+      }}
+    >
       <NearbySpotModalContext.Provider
         value={{
           isShow: isShowNearbySpot,
@@ -38,7 +40,11 @@ const App = () => {
           <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Header />
             <Route path="/" component={FrontPage} exact />
-            <Route path={`/:county(${countyRegexStr})`} component={CountyAttractions} exact />
+            <Route
+              path={`/:county(${countyRegexStr})`}
+              component={CountyAttractions}
+              exact
+            />
             <Route
               path={[
                 "/:county/:attraction",
@@ -55,8 +61,5 @@ const App = () => {
     </NearbyModalContext.Provider>
   );
 };
-
-//nearbyType
-////scenicSpot,restaurant,hotel
 
 export default App;

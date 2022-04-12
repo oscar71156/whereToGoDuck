@@ -6,135 +6,132 @@ import {
   SET_NEARBY_ERROR,
   RESET_NEARBY_FETCHING_STATUS,
 } from "./types";
-import nearbyAttraction from "../../assets/nearbyAttraction";
-import nearbyHotel from "../../assets/nearbyHotel";
-import nearbyRestaurant from "../../assets/nearbyRestaurant";
+import nearbyAttraction from "../../assets/data/nearbyAttraction";
+import nearbyHotel from "../../assets/data/nearbyHotel";
+import nearbyRestaurant from "../../assets/data/nearbyRestaurant";
 import MOTCPTX from "../../apis/MOTCPTX ";
+
 const FETCHAMOUNT = 5;
 
 export const fetchAttractions = (nearbyType) => async (dispatch, getState) => {
   try {
-
-
     dispatch(_setIsLoadingData(true));
     const { nearbyAttractions: nearbyAttractionsState } = getState();
     const { page: currentPage, centerAttraction } = nearbyAttractionsState;
     const { Position: centerAttractionPosition } = centerAttraction;
 
-    let totalData = nearbyAttraction;
-    if (nearbyType === "restaurant") {
-      totalData = nearbyRestaurant;
-    } else if (nearbyType === "hotel") {
-      totalData = nearbyHotel;
-    } else {
-    }
-    let data = totalData.slice(
-      FETCHAMOUNT * currentPage,
-      FETCHAMOUNT * (currentPage + 1)
-    );
-
-    // let url = "/Tourism/ScenicSpot";
+    /****************************/
+    ///temp Datas
+    // let totalData = nearbyAttraction;
     // if (nearbyType === "restaurant") {
-    //   url = "/Tourism/Restaurant";
+    //   totalData = nearbyRestaurant;
     // } else if (nearbyType === "hotel") {
-    //   url = "/Tourism/Hotel";
+    //   totalData = nearbyHotel;
     // } else {
     // }
+    // let data = totalData.slice(
+    //   FETCHAMOUNT * currentPage,
+    //   FETCHAMOUNT * (currentPage + 1)
+    // );
+    /****************************/
 
-    // const response=await MOTCPTX.get(url,{
-    //   params:{
-    //     $top:FETCHAMOUNT,
-    //     $skip: FETCHAMOUNT * currentPage,
-    //     $spatialFilter:`nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`
-    //   }
-    // })
-    // const {data}=response;
+    /**********************/
+    /****GET MOTCPTX DATA****/
+    let url = "/Tourism/ScenicSpot";
+    if (nearbyType === "restaurant") {
+      url = "/Tourism/Restaurant";
+    } else if (nearbyType === "hotel") {
+      url = "/Tourism/Hotel";
+    } else {
+    }
+
+    const response = await MOTCPTX.get(url, {
+      params: {
+        $top: FETCHAMOUNT,
+        $skip: FETCHAMOUNT * currentPage,
+        $spatialFilter: `nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`,
+      },
+    });
+    const { data } = response;
+    /**********************/
 
     if (data && data.length > 0) {
-      dispatch({
-        type: FETCH_NEARBY_ATTRACTIONS,
-        payload: data,
-      });
+      dispatch(_fetchAttractions(data));
     } else {
-      dispatch(_changeIsFetchAll(true))
+      dispatch(_changeIsFetchAll(true));
     }
     dispatch(_setIsLoadingData(false));
   } catch (e) {
     dispatch(writeError("內部發生發生錯誤"));
     dispatch(_setIsLoadingData(false));
-    dispatch(_changeIsFetchAll(true))
+    dispatch(_changeIsFetchAll(true));
   }
 };
 
+export const fecthAttractionsByIdAndNearbyType =
+  (attractionID, nearbyType) => async (dispatch, getState) => {
+    try {
+      dispatch(_setIsLoadingData(true));
 
-const _changeIsFetchAll = (isFetchAll) => {
-  return {
-    type: SET_NEARBY_ISFETECHALL,
-    payload: isFetchAll,
-  };
-};
-
-
-
-
-export const fecthAttractionsByIdAndNearbyType = 
-(attractionID, nearbyType, centerAttractionId) =>
-  async (dispatch, getState) => {
-    try{
-      dispatch(_setIsLoadingData(true))
-      let data = [];
-      if (nearbyType === "restaurant") {
-        data = nearbyRestaurant;
-      } else if (nearbyType === "hotel") {
-        data = nearbyHotel;
-      } else {
-        data = nearbyAttraction;
-      }
-  
-      // const { nearbyAttractions: nearbyAttractionsState } = getState();
-      // const { centerAttraction } = nearbyAttractionsState;
-      // console.log('centerAttraction',centerAttraction)
-
-      // const { Position: centerAttractionPosition } = centerAttraction;
-      // let url = "/Tourism/ScenicSpot";
+      /**********************/
+      ///temp Data
+      // let data = [];
       // if (nearbyType === "restaurant") {
-      //   url = "/Tourism/Restaurant";
+      //   data = nearbyRestaurant;
       // } else if (nearbyType === "hotel") {
-      //   url = "/Tourism/Hotel";
+      //   data = nearbyHotel;
       // } else {
+      //   data = nearbyAttraction;
       // }
-  
-      // console.log("centerAttractionPosition",centerAttractionPosition)
-      // const response=await MOTCPTX.get(url,{
-      //   params:{
-      //     $spatialFilter:`nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`
-      //   }
-      // })
-  
-      // let {data}=response;
+      /**********************/
+
+      /**********************/
+      /****GET MOTCPTX DATA****/
+      const { nearbyAttractions: nearbyAttractionsState } = getState();
+      const { centerAttraction } = nearbyAttractionsState;
+
+      const { Position: centerAttractionPosition } = centerAttraction;
+      let url = "/Tourism/ScenicSpot";
+      if (nearbyType === "restaurant") {
+        url = "/Tourism/Restaurant";
+      } else if (nearbyType === "hotel") {
+        url = "/Tourism/Hotel";
+      } else {
+      }
+
+      const response = await MOTCPTX.get(url, {
+        params: {
+          $spatialFilter: `nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`,
+        },
+      });
+
+      let { data } = response;
+      /**********************/
+
       if (data.length > 0) {
         if (nearbyType === "restaurant") {
-          data = data.filter(({ RestaurantID }) => RestaurantID === attractionID);
+          data = data.filter(
+            ({ RestaurantID }) => RestaurantID === attractionID
+          );
         } else if (nearbyType === "hotel") {
           data = data.filter(({ HotelID }) => HotelID === attractionID);
         }
-        dispatch({
-          type: FETCH_NEARBY_ATTRACTIONS,
-          payload: data,
-        });
-      }else{
-        dispatch({
-          type: FETCH_NEARBY_ATTRACTIONS,
-          payload: [],
-        });
       }
+      dispatch(_fetchAttractions(data));
       dispatch(_changeIsFetchAll(true));
-      dispatch(_setIsLoadingData(false))
-    }catch(e){
+      dispatch(_setIsLoadingData(false));
+    } catch (e) {
       dispatch(writeError("內部發生發生錯誤"));
       dispatch(_setIsLoadingData(false));
-      dispatch(_changeIsFetchAll(true))
-    } 
+      dispatch(_changeIsFetchAll(true));
+    }
+  };
+
+export const _fetchAttractions = (attractions) => {
+  return {
+    type: FETCH_NEARBY_ATTRACTIONS,
+    payload: attractions,
+  };
 };
 
 export const setCenterAttraction = (attraction) => {
@@ -144,30 +141,34 @@ export const setCenterAttraction = (attraction) => {
   };
 };
 
-// export const clearCenterAttraction = () => {
-//   return {
-//     type: SET_NEARBY_CENTER,
-//     payload: null,
-//   };
-// };
+export const clearCenterAttraction = () => {
+  return setCenterAttraction(null);
+};
 
-export const restNearbyFetchingStatus=()=>{
-  return{
-    type:RESET_NEARBY_FETCHING_STATUS
-  }
-}
+///rest all Nearby value to default except centerAttraction
+export const restNearbyFetchingStatus = () => {
+  return {
+    type: RESET_NEARBY_FETCHING_STATUS,
+  };
+};
 
-const writeError=(message)=>{
-  return{
-    type:SET_NEARBY_ERROR,
-    payload:message
-  }
-}
+const writeError = (message) => {
+  return {
+    type: SET_NEARBY_ERROR,
+    payload: message,
+  };
+};
 
-const _setIsLoadingData=(isLoading)=>{
-  return{
-    type:SET_NEARBY_LOADING,
-    payload:isLoading
-  }
-}
+const _setIsLoadingData = (isLoading) => {
+  return {
+    type: SET_NEARBY_LOADING,
+    payload: isLoading,
+  };
+};
 
+const _changeIsFetchAll = (isFetchAll) => {
+  return {
+    type: SET_NEARBY_ISFETECHALL,
+    payload: isFetchAll,
+  };
+};

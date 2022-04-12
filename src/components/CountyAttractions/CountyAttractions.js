@@ -2,13 +2,12 @@ import classes from "./CountyAttractions.module.css";
 import searchInputClasses from "./SearchInput.module.css";
 import SearchInput from "../SearchInput/SearchInput";
 import CountyAttractionList from "./AttractionList";
-import { getTWName } from "../../assets/county";
+import { getTWName } from "../../assets/data/county";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { fetchAttractions as fetchCountyAttractions } from "../../store/actions/countyAttractions";
+import { fetchAttractions as fetchCountyAttractions, resetCountyStatus } from "../../store/actions/countyAttractions";
 import { changeInputCounty } from "../../store/actions/selectedCounty";
 import { useParams } from "react-router-dom";
-import { RESET_COUNTY } from "../../store/actions/types";
 
 const CountyAttractions = () => {
   const countyAttractions = useSelector(
@@ -32,7 +31,7 @@ const CountyAttractions = () => {
 
   useEffect(() => {
     if (!isFetchALLAttractions) {
-      dispatch({ type: RESET_COUNTY });
+      dispatch(resetCountyStatus());
       dispatch(fetchCountyAttractions(countyParam));
     }
   }, [countyParam, isFetchALLAttractions]);

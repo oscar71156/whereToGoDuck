@@ -4,7 +4,7 @@ import {
   SET_COUNTY_ATTRACTION_IN_NEARBY,
   SET_COUNTY_ERROR,
   SET_COUNTY_LOADING,
-  RESET_COUNTY
+  RESET_COUNTY,
 } from "../actions/types";
 
 const initState = {
@@ -14,7 +14,7 @@ const initState = {
   ///因為首頁景點及附近景點細節會呈現在同一頁(path:"/:county/:attraction")，用此作為判斷
   isCountyAttractionFromNearby: false,
   error: null,
-  isLoading:false
+  isLoading: false,
 };
 const countyAttractionsReducer = (state = initState, action) => {
   if (action.type === SET_COUNTY_ISFETECHALL) {
@@ -33,21 +33,21 @@ const countyAttractionsReducer = (state = initState, action) => {
       ...state,
       isCountyAttractionFromNearby: action.payload,
     };
-  } else if(action.type === SET_COUNTY_ERROR){
-      return{
-          ...state,
-          error:action.payload
-      }
-  }else if(action.type===SET_COUNTY_LOADING){
-    return{
+  } else if (action.type === SET_COUNTY_ERROR) {
+    return {
       ...state,
-      isLoading:action.payload
-    }
-  }else if(action.type===RESET_COUNTY){
-    return{
+      error: action.payload,
+    };
+  } else if (action.type === SET_COUNTY_LOADING) {
+    return {
+      ...state,
+      isLoading: action.payload,
+    };
+  } else if (action.type === RESET_COUNTY) {
+    return {
       ...state,
       ...initState,
-    }
+    };
   }
   return state;
 };

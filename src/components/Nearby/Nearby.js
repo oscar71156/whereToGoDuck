@@ -63,6 +63,7 @@ const Nearby = () => {
     }
   }, [centerAttractionNearby, nearbyType]);
 
+  ///"/:county/:attraction/nearby/:nearbyType(scenicSpot|hotel|restaurant)"
   ///依照類型抓取特定類型的附近景點
   useEffect(() => {
     if (!nearbySpot && nearbyType) {

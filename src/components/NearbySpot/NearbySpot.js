@@ -44,7 +44,7 @@ const NearbySpot = () => {
   const { toggle: toggleNearbySpotModal } = useContext(NearbySpotModalContext);
 
   useEffect(() => {
-    let attractionKeyname = "ScenicSpotName";
+    let attractionKeyname = "";
     switch (nearbyType) {
       case "restaurant":
         attractionKeyname = "RestaurantName";
@@ -69,24 +69,23 @@ const NearbySpot = () => {
   useEffect(() => {
     let findedAttraction = null;
     if (nearbyAttractions) {
+      //RestaurantID or HotelID
+      let idKeyName='';
       if (nearbyType === "restaurant") {
-        findedAttraction = nearbyAttractions.find(
-          ({ RestaurantID }) => RestaurantID === nearbySpot
-        );
+        idKeyName='RestaurantID'
       } else if (nearbyType === "hotel") {
-        findedAttraction = nearbyAttractions.find(
-          ({ HotelID }) => HotelID === nearbySpot
-        );
+        idKeyName='HotelID'
       }
+      findedAttraction = nearbyAttractions.find(
+        ({ [idKeyName]:id }) => id === nearbySpot
+      );
       setAttraction(findedAttraction);
     }
-
     if (!findedAttraction && !isFetchAllAttractions) {
       dispatch(
         fecthAttractionsByIdAndNearbyType(
           nearbySpot,
-          nearbyType,
-          centerAttractionID
+          nearbyType
         )
       );
     }

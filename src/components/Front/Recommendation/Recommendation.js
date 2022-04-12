@@ -1,7 +1,7 @@
 import classes from "./Recommendation.module.css";
 import Content from "./Content";
 import MoreButton from "../../UI/Button/More";
-import county from "../../../assets/county";
+import county from "../../../assets/data/county";
 
 import { useEffect, useLayoutEffect, useState } from "react";
 
