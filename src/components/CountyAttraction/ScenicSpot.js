@@ -80,7 +80,7 @@ const ScenicSpot = ({ attraction }) => {
             <span className={classes.icon}>
               <Pen />
             </span>
-            <span className={classes.text}>{attraction.Remarks}</span>
+            <span className={classes.text} dangerouslySetInnerHTML={{__html:attraction.Remarks}}/>
           </div>
         </div>
       </div>
