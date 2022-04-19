@@ -9,10 +9,8 @@ import ScenicSpot from "./ScenicSpot";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fecthAttractionsByIdAndCounty } from "../../store/actions/countyAttractions";
-import {
-  setCenterAttraction,
-  clearCenterAttraction,
-} from "../../store/actions/nearbyAttractions";
+import { clearCenterAttraction } from "../../store/actions/nearbyAttractions";
+import { setCenterAttraction } from "../../store/slice/nearbyAttractions";
 import NearbyModalContext from "../../contexts/NearbyModalContext";
 import NotFound from "../NotFound";
 

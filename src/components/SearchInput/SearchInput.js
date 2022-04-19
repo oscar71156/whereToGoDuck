@@ -1,11 +1,11 @@
 import SearchButton from "../UI/Button/Search";
 import CountySelect from "../UI/Select/County";
 import { useSelector, useDispatch } from "react-redux";
-import { changeInputCounty } from "../../store/actions/selectedCounty";
+import { changeInputCounty } from "../../store/slice/selectedCounty";
 import { useHistory, useParams } from "react-router-dom";
 
 const SearchInput = ({ classes }) => {
-  const selectedCounty = useSelector((state) => state.selectedCounty);
+  const selectedCounty = useSelector((state) => state.selectedCounty.value);
   const dispatch = useDispatch();
   const history = useHistory();
   const urlPathname = history.location.pathname;
@@ -18,6 +18,7 @@ const SearchInput = ({ classes }) => {
     history.push(updatedURL);
   };
   const setNewCounty = (value) => {
+    console.log("setNewCounty", value);
     dispatch(changeInputCounty(value));
   };
   return (

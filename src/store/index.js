@@ -1,7 +1,11 @@
-import {createStore,applyMiddleware,compose} from 'redux';
-import thunk from 'redux-thunk'
-import reducers from './reducers';
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const enhancers=composeEnhancers(applyMiddleware(thunk))
-export default createStore(reducers,enhancers);
+import { configureStore } from "@reduxjs/toolkit";
+import selectedCountyReducer from "./slice/selectedCounty";
+import countyAttractionsReducer from "./slice/countyAttractions";
+import nearbyAttractionsReducer from "./slice/nearbyAttractions";
+export default configureStore({
+  reducer: {
+    selectedCounty: selectedCountyReducer,
+    countyAttractions: countyAttractionsReducer,
+    nearbyAttractions: nearbyAttractionsReducer,
+  },
+});

@@ -9,11 +9,10 @@ import ButtonOptions from "./ButtonOptions";
 import NearbyList from "./NearbyList";
 import NearbySpotModal from "../NearbySpot/NearbySpot";
 
-import { changeCountyAttractionFrom } from "../../store/actions/countyAttractions";
-import {
-  fetchAttractions as fetchNearbyAttractions,
-  restNearbyFetchingStatus,
-} from "../../store/actions/nearbyAttractions";
+import { changeCountyAttractionIsFromNearby } from "../../store/slice/countyAttractions";
+import { fetchAttractions as fetchNearbyAttractions } from "../../store/actions/nearbyAttractions";
+
+import { restNearbyFetchingStatus } from "../../store/slice/nearbyAttractions";
 
 import NearbyModalContext from "../../contexts/NearbyModalContext";
 import NearbySpotModalContext from "../../contexts/NearbySpotModalContext";
@@ -68,25 +67,26 @@ const Nearby = () => {
   useEffect(() => {
     if (!nearbySpot && nearbyType) {
       dispatch(restNearbyFetchingStatus());
+      console.log("useEffect nearby");
       dispatch(fetchNearbyAttractions(nearbyType));
     }
   }, [nearbyType, nearbySpot]);
 
   useEffect(() => {
     if (nearbyType === "scenicSpot" && isAttractionFromNearby === false) {
-      dispatch(changeCountyAttractionFrom(true));
+      dispatch(changeCountyAttractionIsFromNearby(true));
     } else if (
       (nearbyType === "restaurant" || nearbyType === "hotel" || !nearbyType) &&
       isAttractionFromNearby === true
     ) {
-      dispatch(changeCountyAttractionFrom(false));
+      dispatch(changeCountyAttractionIsFromNearby(false));
     }
   }, [nearbyType, isAttractionFromNearby]);
 
   ///當NearbyModal unmount時，isAttractionFromNearby必定為false
   useEffect(() => {
     return () => {
-      dispatch(changeCountyAttractionFrom(false));
+      dispatch(changeCountyAttractionIsFromNearby(false));
     };
   }, []);
 

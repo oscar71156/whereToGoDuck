@@ -5,8 +5,9 @@ import CountyAttractionList from "./AttractionList";
 import { getTWName } from "../../assets/data/county";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { fetchAttractions as fetchCountyAttractions, resetCountyStatus } from "../../store/actions/countyAttractions";
-import { changeInputCounty } from "../../store/actions/selectedCounty";
+import { fetchAttractions as fetchCountyAttractions } from "../../store/actions/countyAttractions";
+import { resetCountyStatus } from "../../store/slice/countyAttractions";
+import { changeInputCounty } from "../../store/slice/selectedCounty";
 import { useParams } from "react-router-dom";
 
 const CountyAttractions = () => {
