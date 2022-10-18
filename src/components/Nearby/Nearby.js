@@ -67,7 +67,6 @@ const Nearby = () => {
   useEffect(() => {
     if (!nearbySpot && nearbyType) {
       dispatch(restNearbyFetchingStatus());
-      console.log("useEffect nearby");
       dispatch(fetchNearbyAttractions(nearbyType));
     }
   }, [nearbyType, nearbySpot]);

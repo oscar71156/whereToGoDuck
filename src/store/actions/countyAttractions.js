@@ -1,29 +1,24 @@
 import MOTCPTX from "../../apis/MOTCPTX ";
 import locations from "../../assets/data/locations";
-import {
-  setIsLoadingData,
-  fetchAllData,
-  fetchAttractions as fetchAttractionsAction,
-  writeError,
-} from "../slice/countyAttractions";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const FETCHAMOUNT = 10;
 
-export const fetchAttractions = (county) => async (dispatch, getState) => {
-  try {
-    dispatch(setIsLoadingData(true));
-    const { countyAttractions: countyAttractionsState } = getState();
+export const fetchAttractions = createAsyncThunk(
+  "countyAttractions/fetchAttractions",
+  async (county, thunkAPI) => {
+    const { countyAttractions: countyAttractionsState } = thunkAPI.getState();
     const { page: currentPage } = countyAttractionsState;
 
-    /******************************/
+    /***************************/
     //temp Data
     // const data = locations.slice(
     //   currentPage * FETCHAMOUNT,
     //   (currentPage + 1) * FETCHAMOUNT
     // );
-    /******************************/
 
-    /**********************/
+    /***************************/
+
     /****GET MOTCPTX DATA****/
     const response = await MOTCPTX.get(`/Tourism/ScenicSpot/${county}`, {
       params: {
@@ -33,42 +28,23 @@ export const fetchAttractions = (county) => async (dispatch, getState) => {
     });
 
     const { data } = response;
-    /**********************/
 
-    if (data && data.length > 0) {
-      dispatch(fetchAttractionsAction(data));
-    } else {
-      dispatch(fetchAllData());
-    }
-    dispatch(setIsLoadingData(false));
-  } catch (e) {
-    dispatch(writeError("內部發生發生錯誤"));
-    dispatch(fetchAllData());
-    dispatch(setIsLoadingData(false));
+    return data;
   }
-};
+);
 
-export const fecthAttractionsByIdAndCounty =
-  (county, attractionID) => async (dispatch) => {
-    try {
-      dispatch(setIsLoadingData(true));
-      // let data = locations;
+export const fecthAttractionsByIdAndCounty = createAsyncThunk(
+  "countyAttractions/fetchAttractionsByIdAndCounty",
+  async (attractionInfor, thunkAPI) => {
+    const { attractionId, county } = attractionInfor;
+    // let data = locations;
 
-      /**********************/
-      /****GET MOTCPTX DATA****/
-      const response = await MOTCPTX.get(`/Tourism/ScenicSpot/${county}`);
-      let { data } = response;
-      /**********************/
-      data = data.filter(({ ScenicSpotID }) => ScenicSpotID === attractionID);
-      if (data && data.length > 0) {
-        dispatch(fetchAttractionsAction(data));
-      }
-      dispatch(fetchAllData());
-      dispatch(setIsLoadingData(false));
-    } catch (e) {
-      console.error("fecthAttractionsByIdAndCounty action error", e.message);
-      dispatch(writeError("內部發生發生錯誤"));
-      dispatch(fetchAllData());
-      dispatch(setIsLoadingData(false));
-    }
-  };
+    /**********************/
+    /****GET MOTCPTX DATA****/
+    const response = await MOTCPTX.get(`/Tourism/ScenicSpot/${county}`);
+    let { data } = response;
+    /**********************/
+    data = data.filter(({ ScenicSpotID }) => ScenicSpotID === attractionId);
+    return data;
+  }
+);

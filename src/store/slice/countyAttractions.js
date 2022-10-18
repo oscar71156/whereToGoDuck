@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchAttractions, fecthAttractionsByIdAndCounty } from "../actions/countyAttractions";
+
 const initialState = {
   page: 0,
   data: [],
@@ -8,22 +10,10 @@ const initialState = {
   error: null,
   isLoading: false,
 };
+
 const slice = createSlice({
   name: "countyAttractions",
   reducers: {
-    setIsLoadingData(state, action) {
-      state.isLoading = action.payload;
-    },
-    fetchAllData(state) {
-      state.isFetchAll = true;
-    },
-    fetchAttractions(state, action) {
-      state.data = [...state.data, ...action.payload];
-      state.page++;
-    },
-    writeError(state, action) {
-      state.error = action.payload;
-    },
     resetCountyStatus() {
       return initialState;
     },
@@ -31,16 +21,45 @@ const slice = createSlice({
       state.isCountyAttractionFromNearby = action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAttractions.pending, (state, action) => {
+        if (!state.isLoading) {
+          state.isLoading = true;
+        }
+      })
+      .addCase(fetchAttractions.fulfilled, (state, action) => {
+        if (action.payload && action.payload.length === 0) {
+          state.isFetchAll = true;
+        }
+        state.data = state.data.concat(action.payload);
+        state.isLoading = false;
+        state.page++;
+      })
+      .addCase(fetchAttractions.rejected, (state,action) => {
+        console.log('fetchAttractions.rejected',action)
+        state.error = "內部發生發生錯誤";
+        state.isFetchAll = true;
+        state.isLoading = false;
+      });
+      builder.addCase(fecthAttractionsByIdAndCounty.pending,(state)=>{
+        state.isLoading=true;
+      }).addCase(fecthAttractionsByIdAndCounty.fulfilled,(state,action)=>{
+        state.isFetchAll = true;
+        state.data = action.payload;
+        state.isLoading = false;
+      }).addCase(fecthAttractionsByIdAndCounty.rejected, (state,action)=>{
+        state.error="內部發生發生錯誤";
+        state.isFetchAll=true;
+        state.isLoading=false
+      })
+  },
   initialState,
 });
 
 const { actions, reducer: countyAttractionsReducer } = slice;
 
 export const {
-  setIsLoadingData,
-  fetchAllData,
-  fetchAttractions,
-  writeError,
   resetCountyStatus,
   changeCountyAttractionIsFromNearby,
 } = actions;

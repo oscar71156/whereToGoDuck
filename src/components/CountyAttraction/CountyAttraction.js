@@ -77,7 +77,12 @@ const CountyScenicSpot = () => {
       setAttraction(foundAttraction);
     } else {
       if (!isNotFoundAttraction) {
-        dispatch(fecthAttractionsByIdAndCounty(selectedCounty, attractionId));
+        dispatch(
+          fecthAttractionsByIdAndCounty({
+            county: selectedCounty,
+            attractionId,
+          })
+        );
       }
     }
   }, [
