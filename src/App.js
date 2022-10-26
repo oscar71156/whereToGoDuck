@@ -39,21 +39,22 @@ const App = () => {
         <div className={styles.App}>
           <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Header />
-            <Route path="/" component={FrontPage} exact />
-            <Route
-              path={`/:county(${countyRegexStr})`}
-              component={CountyAttractions}
-              exact
-            />
+            <Route path="/" exact>
+              <FrontPage />
+            </Route>
+            <Route path={`/:county(${countyRegexStr})`} exact>
+              <CountyAttractions />
+            </Route>
             <Route
               path={[
                 "/:county/:attraction",
                 "/:county/:attraction/nearby/:nearbyType(scenicSpot|hotel|restaurant)",
                 "/:county/:attraction/nearby/:nearbyType(scenicSpot|hotel|restaurant)/:nearbySpot",
               ]}
-              component={CountyAttraction}
               exact
-            />
+            >
+              <CountyAttraction />
+            </Route>
             <Footer />
           </BrowserRouter>
         </div>
