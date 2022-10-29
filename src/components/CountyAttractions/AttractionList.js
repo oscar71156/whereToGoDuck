@@ -7,8 +7,11 @@ import { fetchAttractions as fetchCountyAttractions } from "../../store/actions/
 import { useParams } from "react-router-dom";
 import { useCallback } from "react";
 
-const CountyAttractionList = ({ data }) => {
+const CountyAttractionList = () => {
   const dispatch = useDispatch();
+  const countyAttractions = useSelector(
+    (state) => state.countyAttractions.data
+  );
   const isFetchALLAttractions = useSelector(
     (state) => state.countyAttractions.isFetchAll
   );
@@ -19,7 +22,7 @@ const CountyAttractionList = ({ data }) => {
   const { county } = useParams();
 
   const _getMoreAttractions = useCallback(() => {
-    dispatch(fetchCountyAttractions(county));
+    dispatch(fetchCountyAttractions({county, isNewCounty:false}));
   }, [county]);
 
   const _renderButtonOrLoading = () => {
@@ -40,7 +43,7 @@ const CountyAttractionList = ({ data }) => {
           內部發生錯誤，稍待片刻再重新整理或洽詢管理員。
         </p>
       );
-    } else if (data && data?.length === 0 && isFetchALLAttractions) {
+    } else if (countyAttractions && countyAttractions?.length === 0 && isFetchALLAttractions) {
       return (
         <div className={classes.notFound}>
           <NotFound />
@@ -49,7 +52,7 @@ const CountyAttractionList = ({ data }) => {
     }
     return (
       <>
-        {data.map(
+        {countyAttractions.map(
           ({
             ScenicSpotName: name,
             OpenTime: openTime,

@@ -1,22 +1,21 @@
 import { useParams, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState, useContext } from "react";
+import { useSelector  } from "react-redux";
+import { useEffect, useState } from "react";
 
 import classes from "./NearbySpot.module.css";
 
-import { fecthAttractionsByIdAndNearbyType } from "../../store/actions/nearbyAttractions";
+import { getTempNearbySpotsByType } from "../../assets/data";
 
 import NotFound from "../NotFound";
 
 import Restaurant from "./Restaurant";
 import Hotel from "./Hotel";
 import Modal from "../UI/Modal/Modal";
-import NearbySpotModalContext from "../../contexts/NearbySpotModalContext";
+import { useCallback } from "react";
 
 const NearbySpot = () => {
-  const dispatch = useDispatch();
   const {
-    nearbySpot,
+    nearbySpot: nearbySpotID,
     nearbyType,
     attraction: centerAttractionID,
     county,
@@ -27,21 +26,15 @@ const NearbySpot = () => {
 
   const [headerName, setHeaderName] = useState(null);
   const nearbyAttractions = useSelector(
-    (state) => state.nearbyAttractions.data
+    (state) => state.countyAttractions.data
+  );
+  const centerAttraction = useSelector(
+    (state) => state.displayedAttraction.data
   );
 
-  const isFetchAllAttractions = useSelector(
-    (state) => state.nearbyAttractions.isFetchAll
-  );
-
-  const isLoadingData = useSelector(
-    (state) => state.nearbyAttractions.isLoading
-  );
-  const fetchingDataError = useSelector(
-    (state) => state.nearbyAttractions.error
-  );
-
-  const { toggle: toggleNearbySpotModal } = useContext(NearbySpotModalContext);
+  const [fetchingDataError,setFetchingDataError]=useState(null);
+  
+  const [isFetched,setIsFetched]=useState(false);
 
   useEffect(() => {
     let attractionKeyname = "";
@@ -68,32 +61,25 @@ const NearbySpot = () => {
 
   useEffect(() => {
     let findedAttraction = null;
-    if (nearbyAttractions) {
-      //RestaurantID or HotelID
-      let idKeyName='';
-      if (nearbyType === "restaurant") {
-        idKeyName='RestaurantID'
-      } else if (nearbyType === "hotel") {
-        idKeyName='HotelID'
-      }
-      findedAttraction = nearbyAttractions.find(
-        ({ [idKeyName]:id }) => id === nearbySpot
-      );
-      setAttraction(findedAttraction);
+    //RestaurantID or HotelID
+    let idKeyName = "";
+    if (nearbyType === "restaurant") {
+      idKeyName = "RestaurantID";
+    } else if (nearbyType === "hotel") {
+      idKeyName = "HotelID";
     }
-    if (!findedAttraction && !isFetchAllAttractions) {
-      dispatch(
-        fecthAttractionsByIdAndNearbyType(
-          nearbySpot,
-          nearbyType
-        )
-      );
+    findedAttraction = nearbyAttractions.find(
+      ({ [idKeyName]: id }) => id === nearbySpotID
+    );
+    if(findedAttraction){
+      setAttraction(findedAttraction);
+    }else{
+      fecthAttractionsByIdAndNearbyType(nearbySpotID,nearbyType).then((data)=>{setAttraction(data);setIsFetched(true);}).catch((e)=>setFetchingDataError(true))
     }
   }, [
-    nearbySpot,
+    nearbySpotID,
     nearbyAttractions,
     nearbyType,
-    isFetchAllAttractions,
     centerAttractionID,
   ]);
 
@@ -115,9 +101,35 @@ const NearbySpot = () => {
   }, [attraction]);
 
   const _handleCloseClick = () => {
-    toggleNearbySpotModal(false);
+    // toggleNearbySpotModal(false);
+    /**修正 判斷有goback 無則push*/
     history.push(`/${county}/${centerAttractionID}/nearby/${nearbyType}`);
   };
+
+  const fecthAttractionsByIdAndNearbyType = useCallback(
+    async (attractionID,nearbyType) => {
+      let data = getTempNearbySpotsByType(nearbyType);
+      // const { Position: centerAttractionPosition } = centerAttraction;
+      // const response = await MOTCPTX.get(url, {
+      //   params: {
+      //     $spatialFilter: `nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`,
+      //   },
+      // });
+
+      // let { data } = response;
+
+      if (nearbyType === "restaurant") {
+        data = data.find(({ RestaurantID }) => RestaurantID === attractionID);
+      } else if (nearbyType === "hotel") {
+        data = data.find(({ HotelID }) => HotelID === attractionID);
+      } else {
+        data = data.find(({ ScenicSpotID }) => ScenicSpotID === attractionID);
+      }
+      return data;
+    },
+    [centerAttraction]
+  );
+
   const _renderContent = () => {
     if (fetchingDataError) {
       return (
@@ -125,9 +137,9 @@ const NearbySpot = () => {
           內部發生錯誤，稍待片刻再重新整理或洽詢管理員。
         </p>
       );
-    } else if (!attraction && isFetchAllAttractions) {
+    } else if (!attraction && isFetched) {
       return <NotFound />;
-    } else if (attraction && !isLoadingData) {
+    } else if (attraction) {
       if (nearbyType === "restaurant") {
         return (
           <Restaurant

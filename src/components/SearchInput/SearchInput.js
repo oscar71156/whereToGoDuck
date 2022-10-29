@@ -10,6 +10,11 @@ const SearchInput = ({ classes }) => {
   const history = useHistory();
   const urlPathname = history.location.pathname;
   const { county: countyParam } = useParams();
+
+
+  /***
+   * Append county to URL and goto
+   */
   const handleSearch = (e) => {
     e.preventDefault();
     const updatedURL = countyParam
@@ -18,7 +23,6 @@ const SearchInput = ({ classes }) => {
     history.push(updatedURL);
   };
   const setNewCounty = (value) => {
-    console.log("setNewCounty", value);
     dispatch(changeInputCounty(value));
   };
   return (

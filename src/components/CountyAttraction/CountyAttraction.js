@@ -1,21 +1,18 @@
-import { useEffect, useContext, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useContext } from "react";
+import { getTWName as getCountyTWName } from "../../assets/data/county";
+import { fecthDisplayedAttractionById } from "../../store/actions/displayedAttraction";
+
+import NearbyModalContext from "../../contexts/NearbyModalContext";
+
 import classes from "./CountyAttraction.module.css";
 import NearbyButton from "../UI/Button/Nearby";
 import Nearby from "../Nearby/Nearby";
-
-import NearbySpotModalContext from "../../contexts/NearbySpotModalContext";
-
-import ScenicSpot from "./ScenicSpot";
-import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { fecthAttractionsByIdAndCounty } from "../../store/actions/countyAttractions";
-import { clearCenterAttraction } from "../../store/actions/nearbyAttractions";
-import { setCenterAttraction } from "../../store/slice/nearbyAttractions";
-import NearbyModalContext from "../../contexts/NearbyModalContext";
 import NotFound from "../NotFound";
+import ScenicSpot from "./ScenicSpot";
 
 const CountyScenicSpot = () => {
-  const [attraction, setAttraction] = useState(null);
   const {
     attraction: attractionId,
     county: selectedCounty,
@@ -24,25 +21,18 @@ const CountyScenicSpot = () => {
   } = useParams();
 
   const nearbyCenterAttraction = useSelector(
-    (state) => state.nearbyAttractions.centerAttraction
+    (state) => state.displayedAttraction.data
   );
 
-  const nearbyAttractions = useSelector(
-    (state) => state.nearbyAttractions.data
-  );
-
-  const isAttractionFromNearby = useSelector(
-    (state) => state.countyAttractions.isCountyAttractionFromNearby
-  );
+  const attraction = useSelector((state) => state.displayedAttraction.data);
 
   const isLoadingData = useSelector(
-    (state) => state.countyAttractions.isLoading
+    (state) => state.displayedAttraction.isLoading
   );
 
   const fetchingDataError = useSelector(
-    (state) => state.countyAttractions.error
+    (state) => state.displayedAttraction.error
   );
-  const { toggle: toggleNearbySpot } = useContext(NearbySpotModalContext);
 
   const { isShow: isShowNearby, toggle: toggleNearbyModal } =
     useContext(NearbyModalContext);
@@ -50,68 +40,29 @@ const CountyScenicSpot = () => {
   const dispatch = useDispatch();
 
   const isNotFoundAttraction = useSelector(
-    (state) => state.countyAttractions.isFetchAll
-  );
-
-  const countyAttractions = useSelector(
-    (state) => state.countyAttractions.data
+    (state) => state.displayedAttraction.isFetchAll
   );
 
   useEffect(() => {
-    let foundAttraction = null;
-    if (isAttractionFromNearby) {
-      if (nearbyAttractions) {
-        foundAttraction = nearbyAttractions.find(
-          ({ ScenicSpotID }) => ScenicSpotID === attractionId
-        );
-      }
-    } else {
-      if (countyAttractions) {
-        foundAttraction = countyAttractions.find(
-          ({ ScenicSpotID }) => ScenicSpotID === attractionId
-        );
-      }
+    if (attractionId && selectedCounty) {
+      dispatch(
+        fecthDisplayedAttractionById({ attractionId, county: selectedCounty })
+      );
     }
-
-    if (foundAttraction) {
-      setAttraction(foundAttraction);
-    } else {
-      if (!isNotFoundAttraction) {
-        dispatch(
-          fecthAttractionsByIdAndCounty({
-            county: selectedCounty,
-            attractionId,
-          })
-        );
-      }
-    }
-  }, [
-    countyAttractions,
-    attractionId,
-    isAttractionFromNearby,
-    nearbyAttractions,
-    selectedCounty,
-    isNotFoundAttraction,
-  ]);
+  }, [attractionId, selectedCounty]);
 
   useEffect(() => {
-    if (!nearbyCenterAttraction) {
+    if (attraction && selectedCounty) {
       document.title = `要去哪裡鴨${
-        attraction ? "-" + attraction.ScenicSpotName : ""
+        attraction
+          ? "-" +
+            getCountyTWName(selectedCounty) +
+            " の " +
+            attraction.ScenicSpotName
+          : ""
       }`;
     }
-  }, [attraction, nearbyCenterAttraction]);
-
-  ///=>:county/:attraction/nearby/:nearbyType",
-  //=>/:county/:attraction/nearby/:nearbyType/:nearbySpot"
-  //這兩個url都會使用到centerAttraction
-  useEffect(() => {
-    if (nearbyType && attraction) {
-      dispatch(setCenterAttraction(attraction));
-    } else if (!nearbyType) {
-      dispatch(clearCenterAttraction(null));
-    }
-  }, [nearbyType, attraction]);
+  }, [attraction, selectedCounty]);
 
   ///modal control
   useEffect(() => {
@@ -128,14 +79,6 @@ const CountyScenicSpot = () => {
       toggleNearbyModal(false);
     }
   }, [nearbyType, nearbySpotId, nearbyCenterAttraction]);
-
-  useEffect(() => {
-    if (!nearbySpotId) {
-      toggleNearbySpot(false);
-    } else {
-      toggleNearbySpot(true);
-    }
-  }, [nearbySpotId]);
 
   const _renderContent = () => {
     if (fetchingDataError) {

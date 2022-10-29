@@ -1,31 +1,56 @@
 import { useParams } from "react-router-dom";
-import { useCallback } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import classes from "./NearbyList.module.css";
+
+import { fetchNearbyAttractions } from "../../store/actions/countyAttractions";
+import NearbySpotModalContext from "../../contexts/NearbySpotModalContext";
 
 import NearbyAttraction from "./NearbyAttraction";
 import MoreButton from "../UI/Button/More";
 import NotFound from "../NotFound";
+import NearbySpotModal from "../NearbySpot/NearbySpot";
 
-import { fetchAttractions as fetchNearbyAttractions } from "../../store/actions/nearbyAttractions";
+import classes from "./NearbyList.module.css";
+
+
 
 const NearbyList = () => {
+  const { isShow: isShowNearbySpot, toggle: toggleNearbySpot } = useContext(
+    NearbySpotModalContext
+  );
   const dispatch = useDispatch();
-  const attractions = useSelector((state) => state.nearbyAttractions.data);
-  const isFetchAll = useSelector((state) => state.nearbyAttractions.isFetchAll);
+  const attractions = useSelector((state) => state.countyAttractions.data);
+  const centerAttraction = useSelector(
+    (state) => state.displayedAttraction.data
+  );
+  const isFetchAll = useSelector((state) => state.countyAttractions.isFetchAll);
   const fetchingDataError = useSelector(
-    (state) => state.nearbyAttractions.error
+    (state) => state.countyAttractions.error
   );
   const isLoadingData = useSelector(
-    (state) => state.nearbyAttractions.isLoading
+    (state) => state.countyAttractions.isLoading
   );
 
-  const { nearbyType } = useParams();
+  const { nearbyType, county, attraction, nearbySpot } = useParams();
 
   const handleMore = () => {
-    dispatch(fetchNearbyAttractions(nearbyType));
+    dispatch(fetchNearbyAttractions({ nearbyType, isNewNearbyType: false }));
   };
+
+  useEffect(() => {
+    if (attractions && nearbyType && county && attraction && nearbySpot) {
+      toggleNearbySpot(true);
+    } else if (nearbyType && county && attraction && !nearbySpot) {
+      toggleNearbySpot(false);
+    }
+  }, [attractions, nearbyType, county, attraction, nearbySpot]);
+
+  useEffect(() => {
+    if (centerAttraction) {
+      dispatch(fetchNearbyAttractions({ nearbyType, isNewNearbyType: true }));
+    }
+  }, [nearbyType, centerAttraction]);
 
   const _mapFun = useCallback(
     (attraction) => {
@@ -103,7 +128,12 @@ const NearbyList = () => {
     );
   };
 
-  return <div className={classes.nearbyList}>{_renderContent()}</div>;
+  return (
+    <div className={classes.nearbyList}>
+      {_renderContent()}
+      {isShowNearbySpot && <NearbySpotModal />}
+    </div>
+  );
 };
 
 export default NearbyList;

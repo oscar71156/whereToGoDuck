@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
 export default createContext({
-  isShow: false,
+  isShow: true,
   toggle: () => {},
 });

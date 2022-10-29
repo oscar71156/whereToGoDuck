@@ -1,26 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAttractions, fecthAttractionsByIdAndCounty } from "../actions/countyAttractions";
+import {
+  fetchAttractions,
+  fetchNearbyAttractions,
+  fecthAttractionsByIdAndNearbyType,
+} from "../actions/countyAttractions";
 
 const initialState = {
   page: 0,
   data: [],
   isFetchAll: false,
-  ///因為首頁景點及附近景點細節會呈現在同一頁(path:"/:county/:attraction")，用此作為判斷
-  isCountyAttractionFromNearby: false,
   error: null,
   isLoading: false,
 };
 
 const slice = createSlice({
   name: "countyAttractions",
-  reducers: {
-    resetCountyStatus() {
-      return initialState;
-    },
-    changeCountyAttractionIsFromNearby(state, action) {
-      state.isCountyAttractionFromNearby = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchAttractions.pending, (state, action) => {
@@ -29,30 +24,66 @@ const slice = createSlice({
         }
       })
       .addCase(fetchAttractions.fulfilled, (state, action) => {
-        if (action.payload && action.payload.length === 0) {
+        const { data, isNewCounty } = action.payload;
+        if (data && data.length === 0) {
           state.isFetchAll = true;
         }
-        state.data = state.data.concat(action.payload);
+        if (isNewCounty) {
+          state.page = 0;
+          state.data = [];
+          state.isFetchAll = false;
+          state.error = null;
+          state.isLoading = false;
+        }
+        state.data = state.data.concat(data);
         state.isLoading = false;
         state.page++;
       })
-      .addCase(fetchAttractions.rejected, (state,action) => {
-        console.log('fetchAttractions.rejected',action)
+      .addCase(fetchAttractions.rejected, (state, action) => {
         state.error = "內部發生發生錯誤";
         state.isFetchAll = true;
         state.isLoading = false;
       });
-      builder.addCase(fecthAttractionsByIdAndCounty.pending,(state)=>{
-        state.isLoading=true;
-      }).addCase(fecthAttractionsByIdAndCounty.fulfilled,(state,action)=>{
+
+    builder
+      .addCase(fetchNearbyAttractions.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchNearbyAttractions.fulfilled, (state, action) => {
+        const {isNewNearbyType,data}=action.payload;
+        if (data && data.length === 0) {
+          state.isFetchAll = true;
+        }
+        if (isNewNearbyType) {
+          state.page = 0;
+          state.data = [];
+          state.isFetchAll = false;
+          state.error = null;
+        }
+        state.data = state.data.concat(data);
+        state.isLoading = false;
+        state.page++;
+      })
+      .addCase(fetchNearbyAttractions.rejected, (state, action) => {
+        state.error = "內部發生發生錯誤";
+        state.isFetchAll = true;
+        state.isLoading = false;
+      });
+
+    builder
+      .addCase(fecthAttractionsByIdAndNearbyType.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fecthAttractionsByIdAndNearbyType.fulfilled, (state, action) => {
         state.isFetchAll = true;
         state.data = action.payload;
         state.isLoading = false;
-      }).addCase(fecthAttractionsByIdAndCounty.rejected, (state,action)=>{
-        state.error="內部發生發生錯誤";
-        state.isFetchAll=true;
-        state.isLoading=false
       })
+      .addCase(fecthAttractionsByIdAndNearbyType.rejected, (state, action) => {
+        state.error = "內部發生發生錯誤";
+        state.isFetchAll = true;
+        state.isLoading = false;
+      });
   },
   initialState,
 });
@@ -60,8 +91,8 @@ const slice = createSlice({
 const { actions, reducer: countyAttractionsReducer } = slice;
 
 export const {
-  resetCountyStatus,
   changeCountyAttractionIsFromNearby,
 } = actions;
 
 export default countyAttractionsReducer;
+
