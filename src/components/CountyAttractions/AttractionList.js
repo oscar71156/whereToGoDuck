@@ -54,17 +54,17 @@ const CountyAttractionList = () => {
       <>
         {countyAttractions.map(
           ({
-            ScenicSpotName: name,
+            name,
             OpenTime: openTime,
             Picture: picture,
             Address: address,
-            ScenicSpotID: spotID,
+            id,
             TicketInfo: ticketInfo,
           }) => (
             <CountyAttraction
-              key={spotID}
+              key={id}
               name={name}
-              spotID={spotID}
+              spotID={id}
               pictureURL={picture.PictureUrl1}
               pictureAlt={picture.PictureDescription1}
               address={address}

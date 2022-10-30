@@ -1,10 +1,12 @@
 import { useParams, useHistory } from "react-router-dom";
-import { useSelector  } from "react-redux";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
 import classes from "./NearbySpot.module.css";
 
 import { getTempNearbySpotsByType } from "../../assets/data";
+import { getDataById, getMOTCPTXURLByType } from "../../utilities";
+import MOTCPTX from "../../apis/MOTCPTX ";
 
 import NotFound from "../NotFound";
 
@@ -32,9 +34,9 @@ const NearbySpot = () => {
     (state) => state.displayedAttraction.data
   );
 
-  const [fetchingDataError,setFetchingDataError]=useState(null);
-  
-  const [isFetched,setIsFetched]=useState(false);
+  const [fetchingDataError, setFetchingDataError] = useState(null);
+
+  const [isFetched, setIsFetched] = useState(false);
 
   useEffect(() => {
     let attractionKeyname = "";
@@ -71,17 +73,17 @@ const NearbySpot = () => {
     findedAttraction = nearbyAttractions.find(
       ({ [idKeyName]: id }) => id === nearbySpotID
     );
-    if(findedAttraction){
+    if (findedAttraction) {
       setAttraction(findedAttraction);
-    }else{
-      fecthAttractionsByIdAndNearbyType(nearbySpotID,nearbyType).then((data)=>{setAttraction(data);setIsFetched(true);}).catch((e)=>setFetchingDataError(true))
+    } else {
+      fecthAttractionsByIdAndNearbyType(nearbySpotID, nearbyType)
+        .then((data) => {
+          setAttraction(data);
+          setIsFetched(true);
+        })
+        .catch((e) => setFetchingDataError(true));
     }
-  }, [
-    nearbySpotID,
-    nearbyAttractions,
-    nearbyType,
-    centerAttractionID,
-  ]);
+  }, [nearbySpotID, nearbyAttractions, nearbyType, centerAttractionID]);
 
   useEffect(() => {
     if (attraction) {
@@ -107,25 +109,19 @@ const NearbySpot = () => {
   };
 
   const fecthAttractionsByIdAndNearbyType = useCallback(
-    async (attractionID,nearbyType) => {
-      let data = getTempNearbySpotsByType(nearbyType);
-      // const { Position: centerAttractionPosition } = centerAttraction;
-      // const response = await MOTCPTX.get(url, {
-      //   params: {
-      //     $spatialFilter: `nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`,
-      //   },
-      // });
+    async (attractionID, nearbyType) => {
+      // let data = getTempNearbySpotsByType(nearbyType);
+      const { Position: centerAttractionPosition } = centerAttraction;
+      let url = getMOTCPTXURLByType(nearbyType);
+      const response = await MOTCPTX.get(url, { 
+        params: {
+          $spatialFilter: `nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`,
+        },
+      });
 
-      // let { data } = response;
+      let { data } = response;
 
-      if (nearbyType === "restaurant") {
-        data = data.find(({ RestaurantID }) => RestaurantID === attractionID);
-      } else if (nearbyType === "hotel") {
-        data = data.find(({ HotelID }) => HotelID === attractionID);
-      } else {
-        data = data.find(({ ScenicSpotID }) => ScenicSpotID === attractionID);
-      }
-      return data;
+      return getDataById(attractionID, nearbyType, data);
     },
     [centerAttraction]
   );

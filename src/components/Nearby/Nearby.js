@@ -2,8 +2,6 @@ import React, { useEffect, useContext } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import NearbyModalContext from "../../contexts/NearbyModalContext";
-
 import Modal from "../UI/Modal/Modal";
 import ButtonOptions from "./ButtonOptions";
 import NearbyList from "./NearbyList";
@@ -12,7 +10,6 @@ import classes from "./Nearby.module.css";
 
 
 const Nearby = () => {
-  const { toggle: toggleNearby } = useContext(NearbyModalContext);
   const centerAttractionNearby = useSelector(
     (state) => state.displayedAttraction.data
   );
@@ -22,7 +19,6 @@ const Nearby = () => {
 
   const handleCloseClick = () => {
     history.push(pathname.replace(`/nearby/${nearbyType}`, ""));
-    toggleNearby(false);
   };
 
   useEffect(() => {

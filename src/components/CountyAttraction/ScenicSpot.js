@@ -50,7 +50,7 @@ const ScenicSpot = ({ attraction }) => {
         </div>
 
         <div className={classes.content}>
-          <h5>{attraction.ScenicSpotName}</h5>
+          <h5>{attraction.name}</h5>
           <div className={classes.item}>
             <span className={classes.icon}>
               <Location />

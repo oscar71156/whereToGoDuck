@@ -1,6 +1,7 @@
 import MOTCPTX from "../../apis/MOTCPTX ";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import locations from "../../assets/data/locations";
+import { formatDataIdAndName, getDataById } from "../../utilities";
 export const fecthDisplayedAttractionById = createAsyncThunk(
     "displayedAttraction/fecthDisplayedAttractionById",
     async (attractionInfor, thunkAPI) => {
@@ -23,8 +24,8 @@ export const fecthDisplayedAttractionById = createAsyncThunk(
           const response = await MOTCPTX.get(`/Tourism/ScenicSpot/${county}`);
           let { data } = response;
           /**********************/
-          data = data.find(({ ScenicSpotID }) => ScenicSpotID === attractionId);
-          return data;
+        
+          return formatDataIdAndName(getDataById(attractionId,' scenicSpot',data));
         }
       } catch (e) {
         console.log("error", e);

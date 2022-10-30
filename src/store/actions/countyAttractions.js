@@ -4,6 +4,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import nearbyAttraction from "../../assets/data/nearbyAttraction";
 import nearbyHotel from "../../assets/data/nearbyHotel";
 import nearbyRestaurant from "../../assets/data/nearbyRestaurant";
+import { formatDataArrayIdAndName,getDataById,formatDataIdAndName, getMOTCPTXURLByType } from "../../utilities";
+import { getTempNearbySpotsByType } from "../../assets/data";
 const FETCHAMOUNT = 10;
 
 
@@ -11,27 +13,35 @@ const FETCHAMOUNT = 10;
 export const fetchAttractions = createAsyncThunk(
   "countyAttractions/fetchAttractions",
   async (fetchingInfor, thunkAPI) => {
-    const { countyAttractions: countyAttractionsState } = thunkAPI.getState();
-    const { page } = countyAttractionsState;
-    const { county, isNewCounty } = fetchingInfor;
-    let currentPage = isNewCounty ? 0 : page;
-    /***************************/
-    //temp Data
-    // // const data = locations.slice(
-    // //   currentPage * FETCHAMOUNT,
-    // //   (currentPage + 1) * FETCHAMOUNT
-    // // );
-    // /***************************/
-    /****GET MOTCPTX DATA****/
-    const response = await MOTCPTX.get(`/Tourism/ScenicSpot/${county}`, {
-      params: {
-        $top: FETCHAMOUNT,
-        $skip: currentPage * FETCHAMOUNT,
-      },
-    });
+    try{
+      const { countyAttractions: countyAttractionsState } = thunkAPI.getState();
+      const { page } = countyAttractionsState;
+      const { county, isNewCounty } = fetchingInfor;
+      let currentPage = isNewCounty ? 0 : page;
+      /***************************/
+      //temp Data
+      // let data = locations.slice(
+      //   currentPage * FETCHAMOUNT,
+      //   (currentPage + 1) * FETCHAMOUNT
+      // );
+      // /***************************/
+      /****GET MOTCPTX DATA****/
+      const response = await MOTCPTX.get(`/Tourism/ScenicSpot/${county}`, {
+        params: {
+          $top: FETCHAMOUNT,
+          $skip: currentPage * FETCHAMOUNT,
+        },
+      });
+  
+      let { data } = response;
+  
+      data=formatDataArrayIdAndName(data);
+      return { data, isNewCounty };
+    }catch(e){
+      console.log('error',e);
+      return [];
+    }
 
-    const { data } = response;
-    return { data, isNewCounty };
   }
 );
 
@@ -48,17 +58,10 @@ export const fetchNearbyAttractions = createAsyncThunk(
       const { Position: centerAttractionPosition } = centerAttraction;
       const { nearbyType, isNewNearbyType } = fetchingInfor;
 
-      console.log('centerAttractionPosition',centerAttractionPosition)
       let currentPage = isNewNearbyType ? 0 : page;
 
       ///temp Datas
-      let totalData = nearbyAttraction;
-      if (nearbyType === "restaurant") {
-        totalData = nearbyRestaurant;
-      } else if (nearbyType === "hotel") {
-        totalData = nearbyHotel;
-      } else {
-      }
+      // let totalData = getTempNearbySpotsByType(nearbyType);
       // let data = totalData.slice(
       //   FETCHAMOUNT * currentPage,
       //   FETCHAMOUNT * (currentPage + 1)
@@ -67,13 +70,7 @@ export const fetchNearbyAttractions = createAsyncThunk(
 
       /**********************/
       /****GET MOTCPTX DATA****/
-      let url = "/Tourism/ScenicSpot";
-      if (nearbyType === "restaurant") {
-        url = "/Tourism/Restaurant";
-      } else if (nearbyType === "hotel") {
-        url = "/Tourism/Hotel";
-      } else {
-      }
+      let url=getMOTCPTXURLByType(nearbyType);
 
       const response = await MOTCPTX.get(url, {
         params: {
@@ -82,8 +79,9 @@ export const fetchNearbyAttractions = createAsyncThunk(
           $spatialFilter: `nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`,
         },
       });
-      const { data } = response;
+      let { data } = response;
       /**********************/
+      data=formatDataArrayIdAndName(data,nearbyType);
       return { isNewNearbyType, data };
     } catch (e) {
       console.log("error", e);
@@ -135,13 +133,7 @@ export const fecthAttractionsByIdAndNearbyType = createAsyncThunk(
       const { centerAttraction } = nearbyAttractionsState;
 
       const { Position: centerAttractionPosition } = centerAttraction;
-      let url = "/Tourism/ScenicSpot";
-      if (nearbyType === "restaurant") {
-        url = "/Tourism/Restaurant";
-      } else if (nearbyType === "hotel") {
-        url = "/Tourism/Hotel";
-      } else {
-      }
+      let url = getMOTCPTXURLByType(nearbyType);
 
       const response = await MOTCPTX.get(url, {
         params: {
@@ -152,14 +144,7 @@ export const fecthAttractionsByIdAndNearbyType = createAsyncThunk(
       let { data } = response;
       /**********************/
 
-      if (nearbyType === "restaurant") {
-        data = data.filter(({ RestaurantID }) => RestaurantID === attractionID);
-      } else if (nearbyType === "hotel") {
-        data = data.filter(({ HotelID }) => HotelID === attractionID);
-      } else {
-        data = data.filter(({ ScenicSpotID }) => ScenicSpotID === attractionID);
-      }
-      return data;
+      return formatDataIdAndName(getDataById(attractionID,nearbyType,data));
     }
   }
 );

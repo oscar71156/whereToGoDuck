@@ -58,38 +58,38 @@ const NearbyList = () => {
         case "hotel":
           return (
             <NearbyAttraction
-              key={attraction.HotelID}
+              key={attraction.id}
               address={attraction.Address}
-              name={attraction.HotelName}
+              name={attraction.name}
               phone={attraction.Phone}
               pictureAlt={attraction.Picture.PictureDescription1}
               pictureURL={attraction.Picture.PictureUrl1}
               distance={1}
-              spotID={attraction.HotelID}
+              spotID={attraction.id}
             />
           );
         case "restaurant":
           return (
             <NearbyAttraction
-              key={attraction.RestaurantID}
+              key={attraction.id}
               address={attraction.Address}
-              name={attraction.RestaurantName}
+              name={attraction.name}
               phone={attraction.Phone}
               openTime={attraction.OpenTime}
               pictureAlt={attraction.Picture.PictureDescription1}
               pictureURL={attraction.Picture.PictureUrl1}
               distance={1}
-              spotID={attraction.RestaurantID}
+              spotID={attraction.id}
             />
           );
         case "scenicSpot":
         default:
           return (
             <NearbyAttraction
-              key={attraction.ScenicSpotID}
-              name={attraction.ScenicSpotName}
+              key={attraction.id}
+              name={attraction.name}
               ticketInfo={attraction.TicketInfo}
-              spotID={attraction.ScenicSpotID}
+              spotID={attraction.id}
               pictureAlt={attraction.Picture.PictureDescription1}
               pictureURL={attraction.Picture.PictureUrl1}
               address={attraction.Address}
