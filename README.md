@@ -19,7 +19,14 @@
 #### Step
 1. Dowload the project
 ``` git clone ```
-2. Execute the program. In project root folder, enter ```npm start``` or ```yarn start ```
+2. Execute the program. In project root folder, enter `npm start` or `yarn start `
+   * By default, the program will use temporary data(attraction, restaurant...). If you want to get the online data, you can change `REACT_APP_IS_GET_ONLINE_DATA` in environmental variable.
+     * Windows(cmd.exe) 
+       * `set "REACT_APP_IS_GET_ONLINE_DATA=false" && npm start`
+     * Windows(Powershell) 
+       * `($env:REACT_APP_IS_GET_ONLINE_DATA = "true") -and (npm start)`
+     * Linux, macOS (Bash)
+       * `REACT_APP_IS_GET_ONLINE_DATA=true npm start`
 3. Open http://localhost:3000 to view it in your browser.
 
 

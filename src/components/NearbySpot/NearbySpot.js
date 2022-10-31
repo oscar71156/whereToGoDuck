@@ -110,16 +110,19 @@ const NearbySpot = () => {
 
   const fecthAttractionsByIdAndNearbyType = useCallback(
     async (attractionID, nearbyType) => {
-      // let data = getTempNearbySpotsByType(nearbyType);
-      const { Position: centerAttractionPosition } = centerAttraction;
-      let url = getMOTCPTXURLByType(nearbyType);
-      const response = await MOTCPTX.get(url, { 
-        params: {
-          $spatialFilter: `nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`,
-        },
-      });
-
-      let { data } = response;
+      let data = null;
+      if (process.env.REACT_APP_IS_GET_ONLINE_DATA === "true") {
+        const { Position: centerAttractionPosition } = centerAttraction;
+        let url = getMOTCPTXURLByType(nearbyType);
+        const response = await MOTCPTX.get(url, {
+          params: {
+            $spatialFilter: `nearby(${centerAttractionPosition.PositionLat},${centerAttractionPosition.PositionLon},1000)`,
+          },
+        });
+        data = response.data;
+      } else {
+        data = getTempNearbySpotsByType(nearbyType);
+      }
 
       return getDataById(attractionID, nearbyType, data);
     },

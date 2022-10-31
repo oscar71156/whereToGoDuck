@@ -11,6 +11,6 @@ export const getTempNearbySpotsByType=(type)=>{
         case 'attraction':
             return nearbyAttraction;
         default:
-            return [];
+            return nearbyAttraction;
     }
 }

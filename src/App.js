@@ -21,6 +21,7 @@ const App = () => {
   const [isShowNearby, setIsShowNearby] = useState(false);
   const [isShowNearbySpot, setIsShowNearbySpot] = useState(false);
 
+  console.log(process.env)
   return (
     <NearbyModalContext.Provider
       value={{
