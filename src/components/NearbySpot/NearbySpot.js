@@ -58,7 +58,7 @@ const NearbySpot = () => {
         attraction[attractionKeyname] ? "-" + attraction[attractionKeyname] : ""
       }`;
     } else {
-      document.title = `要去哪裡鴨-NearbySpot`;
+      document.title = `要去哪裡鴨`;
     }
   }, [attraction, nearbyType]);
 

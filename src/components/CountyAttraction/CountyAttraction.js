@@ -52,17 +52,15 @@ const CountyScenicSpot = () => {
   }, [attractionId, selectedCounty]);
 
   useEffect(() => {
-    if (attraction && selectedCounty) {
+    //!nearbySpotId !nearbyType=> 當NearbyModal(List)關閉時
+    if (attraction && selectedCounty && !nearbySpotId && !nearbyType) {
       document.title = `要去哪裡鴨${
         attraction
-          ? "-" +
-            getCountyTWName(selectedCounty) +
-            "の" +
-            attraction.name
+          ? "-" + getCountyTWName(selectedCounty) + "の" + attraction.name
           : ""
       }`;
     }
-  }, [attraction, selectedCounty]);
+  }, [attraction, selectedCounty, nearbySpotId, nearbyType]);
 
   ///modal control
   useEffect(() => {
