@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { useHistory, useParams, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -37,10 +37,10 @@ const Nearby = () => {
           break;
       }
       document.title = `要去哪裡鴨${
-        centerAttractionNearby?.ScenicSpotName
+        centerAttractionNearby?.name
           ? "-" +
-            centerAttractionNearby.ScenicSpotName +
-            "的附近" +
+            centerAttractionNearby.name +
+            "の附近" +
             nearbyTypeTW
           : ""
       }`;

@@ -1,4 +1,4 @@
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
@@ -24,6 +24,7 @@ const NearbySpot = () => {
   } = useParams();
   const history = useHistory();
 
+  const { state: locationState } = useLocation();
   const [attraction, setAttraction] = useState(null);
 
   const [headerName, setHeaderName] = useState(null);
@@ -57,7 +58,7 @@ const NearbySpot = () => {
         attraction[attractionKeyname] ? "-" + attraction[attractionKeyname] : ""
       }`;
     } else {
-      document.title = `要去哪裡鴨`;
+      document.title = `要去哪裡鴨-NearbySpot`;
     }
   }, [attraction, nearbyType]);
 
@@ -105,7 +106,11 @@ const NearbySpot = () => {
   const _handleCloseClick = () => {
     // toggleNearbySpotModal(false);
     /**修正 判斷有goback 無則push*/
-    history.push(`/${county}/${centerAttractionID}/nearby/${nearbyType}`);
+    if (locationState?.prePathname) {
+      history.goBack();
+    }else{
+      history.push(`/${county}/${centerAttractionID}/nearby/${nearbyType}`);
+    }
   };
 
   const fecthAttractionsByIdAndNearbyType = useCallback(

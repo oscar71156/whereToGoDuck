@@ -57,7 +57,7 @@ const CountyScenicSpot = () => {
         attraction
           ? "-" +
             getCountyTWName(selectedCounty) +
-            " の " +
+            "の" +
             attraction.name
           : ""
       }`;

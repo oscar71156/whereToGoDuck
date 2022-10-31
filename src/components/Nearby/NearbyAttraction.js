@@ -1,4 +1,4 @@
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useCallback } from "react";
 
 import Attraction from "../Attraction/Attraction";
@@ -14,13 +14,16 @@ const NearbyAttraction = ({
   spotID,
 }) => {
   const history = useHistory();
+  const location = useLocation();
   const { county, attraction, nearbyType } = useParams();
 
   const handleImgClick = useCallback(() => {
     if (nearbyType === "scenicSpot") {
       history.push(`/${county}/${spotID}`);
     } else {
-      history.push(`/${county}/${attraction}/nearby/${nearbyType}/${spotID}`);
+      history.push(`/${county}/${attraction}/nearby/${nearbyType}/${spotID}`, {
+        prePathname:location.pathname
+      });
     }
   }, [spotID, county, attraction, nearbyType]);
 
