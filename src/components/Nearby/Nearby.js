@@ -8,17 +8,22 @@ import NearbyList from "./NearbyList";
 
 import classes from "./Nearby.module.css";
 
-
 const Nearby = () => {
   const centerAttractionNearby = useSelector(
     (state) => state.displayedAttraction.data
   );
   const history = useHistory();
-  const { pathname } = useLocation();
+  const { pathname, state: locationState } = useLocation();
   const { nearbyType } = useParams();
 
+  //判斷若是直接按網址進入此頁(無prePathname)則用景點詳細頁取代
+  //若是有前一頁的紀錄則回上一頁。
   const handleCloseClick = () => {
-    history.push(pathname.replace(`/nearby/${nearbyType}`, ""));
+    if (locationState?.prePathname) {
+      history.goBack();
+    } else {
+      history.replace(pathname.replace(`/nearby/${nearbyType}`, ""));
+    }
   };
 
   useEffect(() => {
@@ -38,10 +43,7 @@ const Nearby = () => {
       }
       document.title = `要去哪裡鴨${
         centerAttractionNearby?.name
-          ? "-" +
-            centerAttractionNearby.name +
-            "の附近" +
-            nearbyTypeTW
+          ? "-" + centerAttractionNearby.name + "の附近" + nearbyTypeTW
           : ""
       }`;
     }

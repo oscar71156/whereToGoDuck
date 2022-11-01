@@ -7,7 +7,7 @@ const ButtonOptions = () => {
   const { county, attraction, nearbyType } = useParams();
 
   const _changeAttractionType = (newType) => {
-    history.push(`/${county}/${attraction}/nearby/${newType}`);
+    history.replace(`/${county}/${attraction}/nearby/${newType}`);
   };
 
   return (

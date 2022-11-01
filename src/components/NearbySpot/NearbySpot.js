@@ -55,12 +55,14 @@ const NearbySpot = () => {
     }
     if (attraction) {
       document.title = `要去哪裡鴨${
-        attraction[attractionKeyname] ? "-" + attraction[attractionKeyname] : ""
+        attraction[attractionKeyname]
+          ? "-" + county + "の" + attraction[attractionKeyname]
+          : ""
       }`;
     } else {
       document.title = `要去哪裡鴨`;
     }
-  }, [attraction, nearbyType]);
+  }, [attraction, nearbyType, county]);
 
   useEffect(() => {
     let findedAttraction = null;
@@ -108,7 +110,7 @@ const NearbySpot = () => {
     /**修正 判斷有goback 無則push*/
     if (locationState?.prePathname) {
       history.goBack();
-    }else{
+    } else {
       history.push(`/${county}/${centerAttractionID}/nearby/${nearbyType}`);
     }
   };
